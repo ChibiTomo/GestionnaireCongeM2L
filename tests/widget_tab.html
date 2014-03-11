@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<base href="../"/>
+		<meta charset="UTF-8"/>
+
+		<script src="jscript/jquery-1.10.2.min.js"></script>
+		<script src="jscript/core.js"></script>
+		<link rel="stylesheet" href="style/style.css" />
+
+		<script src="jscript/widget_tab.js"></script>
+		<link rel="stylesheet" href="style/widget_tab.css" />
+
+		<style>
+body {
+	width: 25%;
+	height: 25%;
+
+	border: 1px solid black;
+}
+		</style>
+
+	</head>
+	<body>
+		<div id="tab">
+			<div title="Tab1">Content 1<br/><br/><br/><br/><br/><br/><br/><br/>
+				<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+				<br/><br/><br/><br/><br/><br/><br/><br/>toto
+			</div>
+			<div title="Tab2">Content 2</div>
+			<div title="Tab3">Content 3</div>
+			<div title="Tab4">Content 4<br/><br/><br/><br/><br/><br/><br/><br/>
+				<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+				<br/><br/><br/><br/><br/><br/><br/><br/>toto4
+			</div>
+		</div>
+		<script>
+$(document).ready(function() {
+	new yt.Tab('#tab');
+});
+		</script>
+	</body>
+</html>
