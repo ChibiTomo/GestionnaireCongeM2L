@@ -411,15 +411,14 @@ $('.button.update').click(function() {
 		var name = $(this).attr('data-name');
 		if (name == 'services') {
 			var values = $(this).attr('data-value').split(' ');
+			console.log(values);
+			var checkbox = dialog.find('[name^=' + name + ']');
+			checkbox.prop('checked', false);
 			for (var i = 0; i < values.length; i++) {
-				var checkbox = dialog.find('[name^=' + name + ']');
 				checkbox.each(function() {
 					if ($(this).val() == values[i]) {
-						console.log('check ' + name + ':' + values[i]);
+						console.log('check ' + name + ':' + $(this).val())
 						$(this).prop('checked', true);
-					} else {
-						console.log('uncheck ' + name + ':' + $(this).val());
-						$(this).prop('checked', false);
 					}
 				});
 			}
