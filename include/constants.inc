@@ -25,13 +25,18 @@ define('ACTION_NONE', 'none');
 define('ACTION_SIGNIN', 'signin');
 define('ACTION_SIGNOUT', 'signout');
 define('ACTION_AUTHENTICATE', 'authenticate');
+define('ACTION_CREATE', 'create');
 define('ACTION_RETRIEVE', 'retrieve');
+define('ACTION_UPDATE', 'update');
+define('ACTION_DELETE', 'delete');
 define('ACTION_ADMINISTRATE', 'administrate');
 define('ACTION_ERROR', 'error');
 
 // Constantes des types
 define('TYPE_PASSWORD', 'password');
 define('TYPE_SUMMARY', 'summary');
+define('TYPE_EMPLOYEE', 'employee');
+define('TYPE_SERVICE', 'service');
 define('TYPE_MY_DEMANDS', 'my_demands');
 define('TYPE_DEMANDS', 'demands');
 

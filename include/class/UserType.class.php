@@ -18,10 +18,8 @@ class UserType extends MySQLTableEntry {
 		$records = parent::getAll($pdo, UserType::TABLE, $other);
 		$types = array();
 		foreach ($records as $record) {
-			$type = new Employee($pdo, $record);
-			$types[] = $type;
-			$type->loadServices();
-			$type->loadSoldes();
+			$type = new UserType($pdo, $record);
+			$types[$type->getValue('id')] = $type;
 		}
 		return $types;
 	}

@@ -46,6 +46,10 @@ class Employee extends MySQLTableEntry {
 		$this->setValue('id_Superieur', $id);
 	}
 
+	public function getSuperieur() {
+		return $this->superieur;
+	}
+
 	public function addService($service) {
 		if (is_int($service)) {
 			$this->services[] = new Service($this->getPDO(), $service);
@@ -147,6 +151,7 @@ class Employee extends MySQLTableEntry {
 			$employees[] = $employee;
 			$employee->loadServices();
 			$employee->loadSoldes();
+			$employee->setSuperieur($employee->getValue('id_Superieur'));
 		}
 		return $employees;
 	}

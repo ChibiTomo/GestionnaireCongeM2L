@@ -42,7 +42,7 @@ EOF;
 }
 
 function install_create_db() {
-	// Connection à MySQL
+	// Connection Ã  MySQL
 	$pdo = new PDO(
 		'mysql:host='.MYSQL_HOST.';charset=UTF-8',
 		MYSQL_USER,
@@ -53,18 +53,18 @@ function install_create_db() {
 	$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
-	// Suppression de la vieille base de donnée si elle existe
+	// Suppression de la vieille base de donnÃ©e si elle existe
 	$db_name = MYSQL_DBNAME;
 	$pdo->exec('DROP DATABASE IF EXISTS ' . $db_name);
 
-	// Crée la nouvelle base de donnée
+	// CrÃ©e la nouvelle base de donnÃ©e
 	$create_query = <<<EOF
 CREATE DATABASE IF NOT EXISTS ${db_name} DEFAULT CHARACTER SET = 'utf8';
 USE ${db_name};
 EOF;
 	$pdo->exec($create_query);
 
-	// Charge et installe les requêtes pour la nouvelle base de donnée
+	// Charge et installe les requÃªtes pour la nouvelle base de donnÃ©e
 	$install_queries = file_get_contents(ROOT_DIR . '/install/install.sql');
 
 	// Execute queries

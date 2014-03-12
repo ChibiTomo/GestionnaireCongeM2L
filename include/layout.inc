@@ -65,6 +65,11 @@ function layout_get_all_user_types() {
 	return UserType::getAll($g_pdo, 'ORDER BY label');
 }
 
+function layout_get_all_services() {
+	global $g_pdo;
+	return Service::getAll($g_pdo, 'ORDER BY label');
+}
+
 function layout_is_logged() {
 	global $g_layout;
 	return $g_layout[FIELD_IS_LOGGED];

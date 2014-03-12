@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<base href="../"/>
+		<meta charset="UTF-8"/>
+
+		<script src="jscript/jquery-1.10.2.min.js"></script>
+		<script src="jscript/core.js"></script>
+		<link rel="stylesheet" href="style/style.css" />
+
+		<script src="jscript/widget_dialog.js"></script>
+		<link rel="stylesheet" href="style/widget_dialog.css" />
+		<script src="jscript/widget_box.js"></script>
+		<link rel="stylesheet" href="style/widget_box.css" />
+
+
+	</head>
+	<body>
+		<button>Open</button>
+		<div id="dialog">Coucou</div>
+
+		<script>
+var dialog = new yt.Dialog('#dialog', {
+			title: 'My title',
+			buttons: {
+				Close: {
+					type: 'button',
+					action: function() {
+						dialog.close();
+					}
+				},
+			},
+		});
+
+$('button').click(function() {
+	dialog.open();
+});
+		</script>
+	</body>
+</html>

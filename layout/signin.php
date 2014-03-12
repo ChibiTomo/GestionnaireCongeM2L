@@ -1,40 +1,38 @@
 <!-- signin.php -->
-<script src="jscript/widget_box.js"></script>
-<link rel="stylesheet" href="style/widget_box.css" />
-
 <style>
 
 #body {
+	padding-top: 10px;
 	text-align: center;
 }
 
 </style>
-
-<div id="connexion_box" title="Identification">
-	<form id="connexion_form" method="POST" action="<?php echo '?action=' . ACTION_AUTHENTICATE; ?>">
-		<table>
-			<tr>
-				<th><label for="login_field">Login</label></th>
-				<td>
-					<input id="login_field" type="text" name="<?php echo FIELD_LOGIN; ?>" />
-				</td>
-			</tr>
-			<tr>
-				<th><label for="pwd_field">Password</label></th>
-				<td>
-					<input id="pwd_field" type="password" name="<?php echo FIELD_PASSWORD; ?>" />
-				</td>
-			</tr>
-		</table>
-	</form>
-<?php
-	$error_msg = layout_get_error_message();
-	if (!is_null_or_empty($error_msg)) {
-		echo '<span class="error_message">' . $error_msg . '</span>';
-	}
-?>
+<div>
+	<div id="connexion_box" title="Identification">
+		<form id="connexion_form" method="POST" action="<?php echo '?action=' . ACTION_AUTHENTICATE; ?>">
+			<table>
+				<tr>
+					<th><label for="login_field">Login</label></th>
+					<td>
+						<input id="login_field" type="text" name="<?php echo FIELD_LOGIN; ?>" />
+					</td>
+				</tr>
+				<tr>
+					<th><label for="pwd_field">Password</label></th>
+					<td>
+						<input id="pwd_field" type="password" name="<?php echo FIELD_PASSWORD; ?>" />
+					</td>
+				</tr>
+			</table>
+		</form>
+	<?php
+		$error_msg = layout_get_error_message();
+		if (!is_null_or_empty($error_msg)) {
+			echo '<span class="error_message">' . $error_msg . '</span>';
+		}
+	?>
+	</div>
 </div>
-
 <script>
 
 var box = new yt.Box('#connexion_box', {
