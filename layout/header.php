@@ -30,7 +30,7 @@ if (layout_is_logged()) {
 
 	<script>
 printDate();
-setInterval(printDate, 1000);
+//setInterval(printDate, 1000);
 
 function printDate() {
 	$('#date_heure').html(yt.getDate());

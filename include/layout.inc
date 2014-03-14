@@ -65,6 +65,11 @@ function layout_get_all_user_types() {
 	return UserType::getAll($g_pdo, 'ORDER BY label');
 }
 
+function layout_get_all_conge_types() {
+	global $g_pdo;
+	return TypeConge::getAll($g_pdo, 'ORDER BY label');
+}
+
 function layout_get_all_services() {
 	global $g_pdo;
 	return Service::getAll($g_pdo, 'ORDER BY label');

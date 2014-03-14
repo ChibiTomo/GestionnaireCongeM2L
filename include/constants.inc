@@ -35,8 +35,10 @@ define('ACTION_ERROR', 'error');
 // Constantes des types
 define('TYPE_PASSWORD', 'password');
 define('TYPE_SUMMARY', 'summary');
+define('TYPE_CONGE', 'conge');
 define('TYPE_EMPLOYEE', 'employee');
 define('TYPE_SERVICE', 'service');
+define('TYPE_TYPE_CONGE', 'type_conge');
 define('TYPE_MY_DEMANDS', 'my_demands');
 define('TYPE_DEMANDS', 'demands');
 

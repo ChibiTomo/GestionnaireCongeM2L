@@ -112,6 +112,10 @@ function get_states() {
 	return get_constants('STATE_');
 }
 
+function get_types() {
+	return get_constants('TYPE_');
+}
+
 function get_errors() {
 	return get_constants('ERROR_');
 }

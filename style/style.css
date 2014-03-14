@@ -112,7 +112,9 @@ html, body {
 	height: 30px;
 
 	border: 1px solid black;
+	border-radius: 3px 3px 0px 0px;
 	border-bottom: none;
+	overflow: hidden;
 }
 
 #menu li {
@@ -140,8 +142,10 @@ html, body {
 }
 
 #body > div {
+	position: relative;
 	height: 100%;
 	overflow: auto;
+	text-align: center;
 }
 
 /* FOOTER */

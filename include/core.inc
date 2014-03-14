@@ -74,11 +74,10 @@ function core_save_previous_url() {
 }
 
 function core_redirect_to_last_url() {
-	debug_var('_SESSION');
-	if (is_null_or_empty($_SESSION[FIELD_PREVIOUS_URL])) {
+//	if (is_null_or_empty($_SESSION[FIELD_PREVIOUS_URL])) {
 		redirect_to(HOST);
-	}
-	redirect_to($_SESSION[FIELD_PREVIOUS_URL]);
+//	}
+//	redirect_to($_SESSION[FIELD_PREVIOUS_URL]);
 }
 
 function core_kill_session() {

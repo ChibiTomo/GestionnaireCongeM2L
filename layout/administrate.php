@@ -4,102 +4,10 @@
 $user_types = layout_get_all_user_types();
 $employees = layout_get_all_employee();
 $services = layout_get_all_services();
+$types_conge = layout_get_all_conge_types();
 
 ?>
-
-<style>
-#administrate {
-	overflow: hidden !important;
-}
-
-#tab .body {
-	position: relative;
-	text-align: center;
-}
-
-#tab .body > div {
-	position: relative;
-	overflow: hidden;
-}
-
-#tab .body > div > div {
-	height: 100%;
-	overflow: auto;
-	padding: 10px 10px 10px 210px;
-	box-sizing: border-box;
-}
-
-#tab .body table {
-	width: 100%;
-	text-align: center;
-	box-sizing: border-box;
-	background-color: #EAEAEA;
-	border-collapse: collapse;
-}
-#tab .body table th {
-	padding: 5px 5px;
-	background-color: #CACACA;
-}
-
-#tab .body table tr {
-	border: 1px solid black;
-}
-
-#tab .body table td {
-	padding: 5px 5px;
-}
-
-#tab .body table tr:nth-child(even) {
-	background-color: #FFFFFF;
-}
-
-#tab .body .left table {
-	text-align: left;
-	background-color: transparent;
-}
-
-#tab .body .left table td {
-	padding: 0px;
-	background-color: transparent;
-}
-
-#tab .body .left table tr {
-	border: none;
-	background-color: transparent;
-}
-
-#tab .sidebar {
-	width: 150px;
-	padding: 5px;
-	padding-right: 0px;
-	border-right: 1px solid black;
-	background-color: #F0F0F0;
-}
-
-#tab .sidebar .button {
-	position: relative;
-	right: -1px;
-	border: none;
-	background-color: transparent;
-	margin-bottom: 10px;
-}
-
-#tab .sidebar .button.selected {
-	padding: 4px 5px;
-	border: 1px solid black;
-	border-right: 0px;
-	border-radius: 4px 0px 0px 4px;
-
-	background-color: #FAFAFA;
-}
-
-#page .left {
-	position: absolute;
-	left: 5px;
-	width: 200px;
-	text-align: center;
-}
-</style>
+<link rel="stylesheet" href="style/administrate.css" />
 
 <div id="administrate">
 	<div id="tab">
@@ -181,12 +89,12 @@ foreach ($employees as $employee) {
 	$emp_services = $employee->getServices();
 	echo <<<EOF
 					<tr>
-						<td data-name="id">$id</td>
-						<td data-name="lastname">$lastname</td>
-						<td data-name="firstname">$firstname</td>
-						<td data-name="email">$email</td>
-						<td data-name="login">$login</td>
-						<td data-name="type" data-value="$type_id">$type</td>
+						<td data-name="id">{$id}</td>
+						<td data-name="lastname">{$lastname}</td>
+						<td data-name="firstname">{$firstname}</td>
+						<td data-name="email">{$email}</td>
+						<td data-name="login">{$login}</td>
+						<td data-name="type" data-value="{$type_id}">{$type}</td>
 						<td data-name="superior" data-value=
 EOF;
 if ($superieur != null) {
@@ -204,11 +112,12 @@ EOF;
 		$servs_id[] = $service->getValue('id');
 		$servs[] = $service->getValue('label');
 	}
+	$type = TYPE_EMPLOYEE;
 	echo '"' . join(' ', $servs_id) . '">' . join(', ', $servs);
 	echo <<<EOF
 </td>
 						<td><div class="button update" data-type="user">Modifier</div></td>
-						<td><div class="button red delete" data-type="user">Supprimer</div></td>
+						<td><div class="button red delete" data-type="{$type}">Supprimer</div></td>
 					</tr>
 EOF;
 }
@@ -234,15 +143,16 @@ EOF;
 					</tr>
 <?php
 
+$type = TYPE_SERVICE;
 foreach ($services as $service) {
 	$id = $service->getValue('id');
 	$label = $service->getValue('label');
 	echo <<<EOF
 					<tr>
-						<td data-name="id">$id</td>
-						<td data-name="label">$label</td>
+						<td data-name="id">{$id}</td>
+						<td data-name="label">{$label}</td>
 						<td><div class="button update" data-type="service">Modifier</div></td>
-						<td><div class="button red delete" data-type="service">Supprimer</div></td>
+						<td><div class="button red delete" data-type="{$type}">Supprimer</div></td>
 					</tr>
 EOF;
 }
@@ -251,6 +161,47 @@ EOF;
 				</table>
 			</div>
 		</div>
+		<div title="Types de congé">
+			<div>
+				<div class="left">
+					Ajouter un type:
+					<form method="POST" action="?action=<?php echo ACTION_CREATE; ?>&amp;type=<?php echo TYPE_TYPE_CONGE; ?>">
+						<input type="text" name="label" placeholder="Nom" />
+						<input type="submit" class="button green"value="Ajouter" />
+					</form>
+				</div>
+				<table>
+					<tr>
+						<th>ID</th>
+						<th data-type="label">Label</th>
+						<th data-type="action" colspan="2">Actions</th>
+					</tr>
+<?php
+
+$type = TYPE_TYPE_CONGE;
+foreach ($types_conge as $type_conge) {
+	$id = $type_conge->getValue('id');
+	$label = $type_conge->getValue('label');
+	echo <<<EOF
+					<tr>
+						<td data-name="id">{$id}</td>
+						<td data-name="label">{$label}</td>
+						<td><div class="button update" data-type="type_conge">Modifier</div></td>
+						<td><div class="button red delete" data-type="{$type}">Supprimer</div></td>
+					</tr>
+EOF;
+}
+
+?>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div id="confirm_add_user">
+	</div>
+
+	<div id="confirm_add_service">
 	</div>
 
 	<div id="update_user">
@@ -309,16 +260,16 @@ foreach ($services as $key => $service) {
 		</form>
 	</div>
 
-	<div id="delete_user">
-		Êtes-vous sûr de vouloir supprimer l'utilisateur <b></b> ?
-		<form method="POST" action="?action=<?php echo ACTION_DELETE; ?>&amp;type=<?php echo TYPE_EMPLOYEE; ?>">
+	<div id="update_type_conge">
+		<form method="POST" action="?action=<?php echo ACTION_UPDATE; ?>&amp;type=<?php echo TYPE_TYPE_CONGE; ?>">
 			<input type="hidden" name="id" />
+			<input type="text" name="label" placeholder="Nom" />
 		</form>
 	</div>
 
-	<div id="delete_service">
-		Êtes-vous sûr de vouloir supprimer le service <b></b> ?
-		<form method="POST" action="?action=<?php echo ACTION_DELETE; ?>&amp;type=<?php echo TYPE_SERVICE; ?>">
+	<div id="delete">
+		Êtes-vous sûr de vouloir supprimer <b></b> ?
+		<form method="POST" action="">
 			<input type="hidden" name="id" />
 		</form>
 	</div>
@@ -365,39 +316,20 @@ dialogs.update_service = new yt.Dialog('#update_service', {
 			},
 		});
 
-dialogs.delete_user = new yt.Dialog('#delete_user', {
-			title: 'Supprimer un utilisateur',
-			buttons: {
-				Supprimer: {
-					type: 'button',
-					class: 'red',
-					action: function() {
-						$('#delete_user').find('form').submit();
-					}
-				},
-				Annuler: {
-					type: 'button',
-					action: function() {
-						dialogs.delete_user.close();
-					}
-				}
-			},
-		});
-
-dialogs.delete_service = new yt.Dialog('#delete_service', {
+dialogs.delete = new yt.Dialog('#delete', {
 			title: 'Supprimer un service',
 			buttons: {
 				Supprimer: {
 					type: 'button',
 					class: 'red',
 					action: function() {
-						$('#delete_service').find('form').submit();
+						$('#delete').find('form').submit();
 					}
 				},
 				Annuler: {
 					type: 'button',
 					action: function() {
-						dialogs.delete_service.close();
+						dialogs.delete.close();
 					}
 				}
 			},
@@ -436,17 +368,20 @@ $('.button.update').click(function() {
 });
 
 $('.button.delete').click(function() {
-	var dname = 'delete_' + $(this).attr('data-type');
+	var type = $(this).attr('data-type');
 	var tr = $(this).parent().parent();
 	var id = tr.find('td[data-name=id]').html();
 	var name = tr.find('td[data-name=label]').html()
-	if (dname == 'delete_user') {
+	if (type == '<?php echo TYPE_EMPLOYEE; ?>') {
 		name = tr.find('td[data-name=firstname]').html() + ' ' + tr.find('td[data-name=lastname]').html();
 	}
-	var dialog = dialogs[dname].getElement();
+
+	console.log(type);
+	var dialog = dialogs.delete.getElement();
 	dialog.find('b').html(name);
 	dialog.find('[name=id]').val(id);
-	dialogs[dname].open();
+	dialog.find('form').attr('action', '?action=<?php echo ACTION_DELETE; ?>&amp;type=' + type);
+	dialogs.delete.open();
 });
 	</script>
 

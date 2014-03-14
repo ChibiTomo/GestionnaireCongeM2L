@@ -1,12 +1,6 @@
 <!-- signin.php -->
-<style>
+<link rel="stylesheet" href="style/signin.css" />
 
-#body {
-	padding-top: 10px;
-	text-align: center;
-}
-
-</style>
 <div>
 	<div id="connexion_box" title="Identification">
 		<form id="connexion_form" method="POST" action="<?php echo '?action=' . ACTION_AUTHENTICATE; ?>">
