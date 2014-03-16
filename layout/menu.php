@@ -4,7 +4,6 @@
 		<li data-url="">Calendrier</li>
 		<li data-url="action=<?php echo ACTION_RETRIEVE; ?>&type=<?php echo TYPE_SUMMARY; ?>">Résumé</li>
 		<li data-url="action=<?php echo ACTION_RETRIEVE; ?>&type=<?php echo TYPE_MY_DEMANDS; ?>">Mes demandes</li>
-		<li data-url="action=<?php echo ACTION_SIGNOUT; ?>" >Déconnexion</li>
 <?php
 $employee = layout_get_employee();
 if ($employee->hasSubordinate()) {
@@ -18,6 +17,7 @@ if ($employee->isAdmin()) {
 <?php
 }
 ?>
+		<li data-url="action=<?php echo ACTION_SIGNOUT; ?>" >Déconnexion</li>
 	</ul>
 </div>
 
