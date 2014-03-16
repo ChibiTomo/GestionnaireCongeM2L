@@ -5,4 +5,4 @@
 		<li>®Copyright <?php echo layout_get_copyright(); ?></li>
 	</ul>
 </div>
-<!-- END signin.php -->
+<!-- END footer.php -->

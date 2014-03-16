@@ -74,10 +74,10 @@ function core_save_previous_url() {
 }
 
 function core_redirect_to_last_url() {
-//	if (is_null_or_empty($_SESSION[FIELD_PREVIOUS_URL])) {
+	if (is_null_or_empty($_SESSION[FIELD_PREVIOUS_URL])) {
 		redirect_to(HOST);
-//	}
-//	redirect_to($_SESSION[FIELD_PREVIOUS_URL]);
+	}
+	redirect_to($_SESSION[FIELD_PREVIOUS_URL]);
 }
 
 function core_kill_session() {
@@ -113,7 +113,7 @@ function core_manage_page() {
 	$page_name = $_SESSION[FIELD_STATE];
 	if ($_SESSION[FIELD_STATE] == STATE_NOT_ALLOWED) {
 		$page_name = PAGE_ERROR;
-		error(STATE_NOT_ALLOWED, '');
+		error(STATE_NOT_ALLOWED, 'Vous n\'êtes pas authorisés à effectuer cette action.');
 	}
 
 	debug($page_name);
@@ -126,11 +126,11 @@ function core_manage_page() {
 	}
 
 	debug('page_name=' . $page_name);
-	$g_layout[FIELD_IS_LOGGED] = core_is_logged();
-	$g_layout[FIELD_PAGE] = $page;
-	$g_layout[FIELD_TITLE] = core_get_title($page_name);
-	$g_layout[FIELD_HEAD_TITLE] = core_get_head_title($page_name);
-	$g_layout[FIELD_EMPLOYEE] = new Employee($g_pdo, $_SESSION[FIELD_LOGGED_USER_ID]);
+	$g_layout[DISPLAY_IS_LOGGED] = core_is_logged();
+	$g_layout[DISPLAY_PAGE] = $page;
+	$g_layout[DISPLAY_TITLE] = core_get_title($page_name);
+	$g_layout[DISPLAY_HEAD_TITLE] = core_get_head_title($page_name);
+	$g_layout[DISPLAY_EMPLOYEE] = new Employee($g_pdo, $_SESSION[FIELD_LOGGED_USER_ID]);
 	debug_var('g_layout');
 }
 

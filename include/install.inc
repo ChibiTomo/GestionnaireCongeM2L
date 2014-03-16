@@ -48,6 +48,8 @@ function install_create_db() {
 		MYSQL_USER,
 		MYSQL_PASSWORD
 	);
+	$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+	$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 	// Configure PDO pour jeter des Exceptions
 	$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -73,6 +75,8 @@ EOF;
 
 function install_populate_db() {
 	$pdo = new PDO('mysql:host='.MYSQL_HOST.';dbname='.MYSQL_DBNAME.';charset=UTF-8', MYSQL_USER, MYSQL_PASSWORD);
+	$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+	$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 	install_populate_usertype($pdo);
 	install_populate_service($pdo);
@@ -215,6 +219,8 @@ function install_populate_conge($pdo) {
 			'end' => $now + (3 * $day),
 		),
 	);
+
+	debug($dates);
 
 	foreach ($statusConge as $status) {
 		foreach ($dates as $date) {

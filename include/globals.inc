@@ -11,12 +11,14 @@ $g_head_titles = array(
 	STATE_SIGNIN => ' - Connexion',
 	STATE_ERROR => ' - Error',
 	STATE_ADMINISTRATE => ' - Administration',
+	STATE_SUMMARY => ' - Résumés',
 );
 
 $g_titles = array(
 	STATE_DEFAULT => 'Calendrier',
 	STATE_ERROR => 'Error',
 	STATE_ADMINISTRATE => 'Administration',
+	STATE_SUMMARY => 'Résumés',
 );
 
 $g_action_save_url_black_list = array(

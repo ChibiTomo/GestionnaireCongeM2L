@@ -1,10 +1,10 @@
 <!-- administrate.php -->
 <?php
 
-$user_types = layout_get_all_user_types();
-$employees = layout_get_all_employee();
-$services = layout_get_all_services();
-$types_conge = layout_get_all_conge_types();
+$user_types = layout_get_user_types();
+$employees = layout_get_employees();
+$services = layout_get_services();
+$types_conge = layout_get_conge_types();
 
 ?>
 <link rel="stylesheet" href="style/administrate.css" />
@@ -311,6 +311,25 @@ dialogs.update_service = new yt.Dialog('#update_service', {
 					type: 'button',
 					action: function() {
 						dialogs.update_service.close();
+					}
+				}
+			},
+		});
+
+dialogs.update_type_conge = new yt.Dialog('#update_type_conge', {
+			title: 'Modifier un service',
+			buttons: {
+				Confirmer: {
+					type: 'button',
+					class: 'green',
+					action: function() {
+						$('#update_type_conge').find('form').submit();
+					}
+				},
+				Annuler: {
+					type: 'button',
+					action: function() {
+						dialogs.update_type_conge.close();
 					}
 				}
 			},

@@ -63,13 +63,13 @@ class Employee extends MySQLTableEntry {
 	public function store() {
 		$values = $this->getValues();
 
-		// Verifie que le type d'utilisateur donné existe
+		// Verifie que le type d'utilisateur donnï¿½ existe
 		$ut = new UserType($this->getPDO(), $this->getValue('id_UserType'));
 		if (!isset($values['id_UserType']) || !$ut->exists()) {
 			$this->setValue('id_UserType', USER_TYPE_NORMAL);
 		}
 
-		// Verifie que le supérieur donné existe
+		// Verifie que le supï¿½rieur donnï¿½ existe
 		$id_superieur = intval($this->getValue('id_Superieur')); // 0 = Pas de superieur
 		if ($id_superieur == 0) {
 			$this->superieur = null;
@@ -77,7 +77,7 @@ class Employee extends MySQLTableEntry {
 		} else if ($this->count(array('id' => $id_superieur)) > 0) { // Verifie si l'employee existe
 			$this->superieur = new Employee($this->getPDO(), $id_superieur);
 		} else {
-			throw new Exception('Le supérieur n\'existe pas: id=' . $id_superieur);
+			throw new Exception('Le supï¿½rieur n\'existe pas: id=' . $id_superieur);
 		}
 
 		parent::store();
@@ -128,7 +128,7 @@ class Employee extends MySQLTableEntry {
 		$link->delete();
 	}
 
-	public function loadServices() {
+	private function loadServices() {
 		$a = new Appartenir($this->getPDO());
 		$links = $a->selectAll('id_Employee='.$this->getValue('id'));
 
@@ -138,7 +138,7 @@ class Employee extends MySQLTableEntry {
 		}
 	}
 
-	public function loadSoldes() {
+	private function loadSoldes() {
 		$s = new Solde($this->getPDO());
 		$this->soldes = $s->selectAll('id_Employee='.$this->getValue('id'));
 	}
@@ -151,7 +151,7 @@ class Employee extends MySQLTableEntry {
 			$employees[] = $employee;
 			$employee->loadServices();
 			$employee->loadSoldes();
-			$employee->setSuperieur($employee->getValue('id_Superieur'));
+			$employee->setSuperieur(intval($employee->getValue('id_Superieur')));
 		}
 		return $employees;
 	}
@@ -176,6 +176,13 @@ class Employee extends MySQLTableEntry {
 
 	public function getServices() {
 		return $this->services;
+	}
+
+	public function getSoldes() {
+		return $this->soldes;
+	}
+
+	public function getConges() {
 	}
 
 	public function hasSubordinate() {

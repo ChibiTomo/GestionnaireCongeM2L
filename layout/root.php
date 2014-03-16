@@ -1,7 +1,7 @@
 <!-- root.php -->
 <?php
 
-$conge_types = layout_get_all_conge_types();
+$conge_types = layout_get_conge_types();
 
 ?>
 

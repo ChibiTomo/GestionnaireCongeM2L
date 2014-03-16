@@ -11,7 +11,7 @@ session_start();
 
 core_manage_required_fields();
 
-//core_save_previous_url();
+core_save_previous_url();
 
 try {
 	action_manage();

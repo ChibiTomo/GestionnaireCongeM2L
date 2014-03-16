@@ -44,10 +44,10 @@ function layout_get_title($is_for_head = false) {
 	global $g_layout;
 
 	if ($is_for_head) {
-		return $g_layout[FIELD_HEAD_TITLE];
+		return $g_layout[DISPLAY_HEAD_TITLE];
 	}
 
-	return $g_layout[FIELD_TITLE];
+	return $g_layout[DISPLAY_TITLE];
 }
 
 function layout_get_employee() {
@@ -55,29 +55,39 @@ function layout_get_employee() {
 	return $g_layout[FIELD_EMPLOYEE];
 }
 
-function layout_get_all_employee() {
-	global $g_pdo;
-	return Employee::getAll($g_pdo, 'ORDER BY lastname');
+function layout_get_employees() {
+	global $g_layout;
+	return $g_layout[DISPLAY_EMPLOYEES];
 }
 
-function layout_get_all_user_types() {
-	global $g_pdo;
-	return UserType::getAll($g_pdo, 'ORDER BY label');
+function layout_get_user_types() {
+	global $g_layout;
+	return $g_layout[DISPLAY_USER_TYPES];
 }
 
-function layout_get_all_conge_types() {
-	global $g_pdo;
-	return TypeConge::getAll($g_pdo, 'ORDER BY label');
+function layout_get_conges() {
+	global $g_layout;
+	return $g_layout[DISPLAY_CONGES];
 }
 
-function layout_get_all_services() {
-	global $g_pdo;
-	return Service::getAll($g_pdo, 'ORDER BY label');
+function layout_get_conge_types() {
+	global $g_layout;
+	return $g_layout[DISPLAY_TYPES_CONGE];
+}
+
+function layout_get_soldes() {
+	global $g_layout;
+	return $g_layout[DISPLAY_SOLDES];
+}
+
+function layout_get_services() {
+	global $g_layout;
+	return $g_layout[DISPLAY_SERVICES];
 }
 
 function layout_is_logged() {
 	global $g_layout;
-	return $g_layout[FIELD_IS_LOGGED];
+	return $g_layout[DISPLAY_IS_LOGGED];
 }
 
 function layout_get_copyright() {

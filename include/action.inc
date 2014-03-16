@@ -27,6 +27,7 @@ function action_manage() {
 
 		case ACTION_NONE:
 			$employee = core_need_authentication();
+			action_root($employee);
 			break;
 
 		case ACTION_ERROR:
@@ -59,6 +60,12 @@ function action_error() {
 	}
 }
 
+function action_root() {
+	global $g_layout;
+	global $g_pdo;
+	$g_layout[DISPLAY_TYPES_CONGE] = TypeConge::getAll($g_pdo, 'ORDER BY label');
+}
+
 function action_signin() {
 	core_set_state(STATE_SIGNIN);
 }
@@ -69,20 +76,15 @@ function action_signout() {
 
 function action_authenticate() {
 	global $g_pdo;
-	debug_var('_POST');
 
 	$login = $_POST[FIELD_LOGIN];
 	$pwd = $_POST[FIELD_PASSWORD];
-	debug_var('_SESSION');
-
 	$employee = Employee::authenticate($g_pdo, $login, $pwd);
 
 	if ($employee != null) {
 		core_authenticate($employee);
-//		core_set_state(STATE_DEFAULT);
-//		return;
-		debug_var('_SESSION');
-		core_redirect_to_last_url();
+// 		core_redirect_to_last_url();
+		redirect_to(HOST);
 	}
 	core_set_error_message('Mauvais login et/ou mot de passe.');
 	redirect_to('?action=' . ACTION_SIGNIN);
@@ -95,13 +97,41 @@ function action_retrieve($employee) {
 	}
 
 	switch($_GET[FIELD_TYPE]) {
+		case TYPE_SUMMARY:
+			core_set_state(STATE_SUMMARY);
+			action_retrieve_solde($employee);
+			action_retrieve_conge($employee);
+			break;
+
 		default:
 			error(ERROR_WRONG_TYPE, 'Unknown given type: ' . $_GET[FIELD_TYPE]);
 			break;
 	}
 }
 
+function action_retrieve_solde($employee) {
+	global $g_layout;
+	$g_layout[DISPLAY_SOLDES] = $employee->getSoldes();
+}
+
+function action_retrieve_conge($employee) {
+	global $g_layout;
+	$g_layout[DISPLAY_CONGES] = $employee->getConges();
+}
+
 function action_administrate($employee) {
+	global $g_layout;
+	global $g_pdo;
+
+	if (!$employee->isAdmin()) {
+		core_set_state(STATE_NOT_ALLOWED);
+		return;
+	}
+
+	$g_layout[DISPLAY_EMPLOYEES] = Employee::getAll($g_pdo, 'ORDER BY lastname');
+	$g_layout[DISPLAY_USER_TYPES] = UserType::getAll($g_pdo, 'ORDER BY label');
+	$g_layout[DISPLAY_TYPES_CONGE] = TypeConge::getAll($g_pdo, 'ORDER BY label');
+	$g_layout[DISPLAY_SERVICES] = Service::getAll($g_pdo, 'ORDER BY label');
 	core_set_state(STATE_ADMINISTRATE);
 }
 

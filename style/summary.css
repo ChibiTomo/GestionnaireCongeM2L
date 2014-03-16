@@ -1,0 +1,84 @@
+#summary {
+	overflow: hidden !important;
+}
+
+#tab .body {
+	position: relative;
+	text-align: center;
+}
+
+#tab .body > div {
+	position: relative;
+	overflow: hidden;
+}
+
+#tab .body > div > div {
+	height: 100%;
+	overflow: auto;
+	padding: 10px 10px 10px 210px;
+	box-sizing: border-box;
+}
+
+#tab .body table {
+	width: 100%;
+	text-align: center;
+	box-sizing: border-box;
+	background-color: #EAEAEA;
+	border-collapse: collapse;
+}
+#tab .body table th {
+	padding: 5px 5px;
+	background-color: #CACACA;
+}
+
+#tab .body table tr {
+	border: 1px solid black;
+}
+
+#tab .body table td {
+	padding: 5px 5px;
+}
+
+#tab .body table tr:nth-child(even) {
+	background-color: #FFFFFF;
+}
+
+#tab .body .left table {
+	text-align: left;
+	background-color: transparent;
+}
+
+#tab .body .left table td {
+	padding: 0px;
+	background-color: transparent;
+}
+
+#tab .body .left table tr {
+	border: none;
+	background-color: transparent;
+}
+
+#tab .sidebar {
+	width: 150px;
+	padding: 5px;
+	padding-right: 0px;
+	border-right: 1px solid black;
+	background-color: #F0F0F0;
+}
+
+#tab .sidebar .button {
+	position: relative;
+	right: -1px;
+	border: none;
+	background-color: transparent;
+	margin-bottom: 10px;
+}
+
+#tab .sidebar .button.selected {
+	padding: 4px 5px;
+	border: 1px solid black;
+	border-right: 0px;
+	border-radius: 4px 0px 0px 4px;
+
+	background-color: #FAFAFA;
+}

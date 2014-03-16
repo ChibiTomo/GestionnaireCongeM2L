@@ -2,6 +2,8 @@
 
 define('ROOT_DIR', dirname(__FILE__));
 require_once ROOT_DIR . '/include/install.inc';
+session_start();
+session_destroy();
 
 if (file_exists(MYSQL_CONFIG_FILE)) {
 	redirect_to(HOST);
@@ -10,6 +12,7 @@ if (file_exists(MYSQL_CONFIG_FILE)) {
 if (isset($_POST['host'])) {
 	try {
 		install();
+		session_destroy();
 		redirect_to(HOST);
 	} catch (Exception $e) {
 		echo $e->getMessage();

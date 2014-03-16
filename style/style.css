@@ -178,7 +178,7 @@ html, body {
 
 /* DEBUG */
 #debug {
-	display: none;
+/* 	display: none; */
 }
 
 /* OTHERS */
@@ -218,6 +218,13 @@ html, body {
 .button.red:hover {
 	color: #FFFFFF;
 	background-color: #FF5959;
+}
+
+input.enter_button[type=submit] {
+	position: absolute;
+	width: 0px;
+	height: 0px;
+	opacity: 0;
 }
 
 .error_message {

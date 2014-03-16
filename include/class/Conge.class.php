@@ -5,15 +5,6 @@ class Conge extends MySQLTableEntry {
 		parent::__construct($pdo, 'conge', $arg);
 	}
 
-	public function exists() {
-		$array = array(
-			'id_Employee' => $this->getValue('id_Employee'),
-			'id_TypeConge' => $this->getValue('id_TypeConge'),
-			'id_StatusConge' => $this->getValue('id_StatusConge'),
-		);
-		return $this->count($array) > 0;
-	}
-
 	public function setDebut($timestamp) {
 		if (!is_numeric($timestamp) || intval($timestamp) < 0) {
 			throw new Exception('A timestamp have to be a positive numeric.');
@@ -41,7 +32,7 @@ class Conge extends MySQLTableEntry {
 	}
 
 	public function store() {
-		if ($this->getValue('debut_t') < $this->getValue('fin')) {
+		if ($this->getValue('debut_t') > $this->getValue('fin_t')) {
 			throw new Exception('Conge start after the end.');
 		}
 

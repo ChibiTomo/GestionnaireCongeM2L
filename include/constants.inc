@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Ce fichier contient toutes les constantes utilisé par le site, exepté les
+ * Ce fichier contient toutes les constantes utilisï¿½ par le site, exeptï¿½ les
  * constantes de configuration.
  */
 
-// Génère la constante HOST pour l'url du site
+// Gï¿½nï¿½re la constante HOST pour l'url du site
 $base_url = 'http://' . $_SERVER['SERVER_NAME'] . dirname($_SERVER['SCRIPT_NAME']);
 if (substr($base_url, -1) == "/") {
 	$base_url = substr($base_url, 0, 0);
@@ -13,7 +13,7 @@ if (substr($base_url, -1) == "/") {
 define('HOST', $base_url);
 define('LAYOUT_DIR', ROOT_DIR . '/layout');
 
-// Définit les chemins des fichier de configurations
+// Dï¿½finit les chemins des fichier de configurations
 define('CONFIG_FILE', ROOT_DIR . '/config.inc');
 define('MYSQL_CONFIG_FILE', ROOT_DIR . '/mysqlconfig.inc');
 
@@ -46,6 +46,7 @@ define('TYPE_DEMANDS', 'demands');
 define('STATE_DEFAULT', 'root');
 define('STATE_SIGNIN', 'signin');
 define('STATE_ADMINISTRATE', 'administrate');
+define('STATE_SUMMARY', 'summary');
 define('STATE_NOT_ALLOWED', 'not_allowed');
 define('STATE_ERROR_WRONG_STATE', 'error_wrong_state');
 define('STATE_ERROR_404', 'error_404');
@@ -66,9 +67,16 @@ define('FIELD_ERROR_MESSAGE', 'error_message');
 
 // Constantes des champs display
 define('DISPLAY_PAGE', 'page');
-define('FIELD_IS_LOGGED', 'is_logged');
-define('FIELD_TITLE', 'title');
-define('FIELD_HEAD_TITLE', 'head_title');
+define('DISPLAY_EMPLOYEE', 'employee');
+define('DISPLAY_EMPLOYEES', 'employees');
+define('DISPLAY_USER_TYPES', 'user_types');
+define('DISPLAY_CONGES', 'conges');
+define('DISPLAY_TYPES_CONGE', 'types_conge');
+define('DISPLAY_SERVICES', 'services');
+define('DISPLAY_SOLDES', 'soldes');
+define('DISPLAY_IS_LOGGED', 'is_logged');
+define('DISPLAY_TITLE', 'title');
+define('DISPLAY_HEAD_TITLE', 'head_title');
 
 // Constantes des nom de page/fichier_page
 define('PAGE_ERROR', 'error');

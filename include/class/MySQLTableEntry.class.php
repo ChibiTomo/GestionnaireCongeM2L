@@ -31,7 +31,7 @@ class MySQLTableEntry {
 		} else if (is_int($arg)) {
 			$this->load($arg);
 		} else if (!is_null($arg)) {
-			throw new Exception('arg have to be an int, an array or null, ' . gettype($arg) . ' given.');
+			throw new Exception('arg have to be an int, an array or null, ' . gettype($arg) . ' given: ' . $arg);
 		}
 	}
 

@@ -18,6 +18,7 @@
 					</td>
 				</tr>
 			</table>
+			<input type="submit" class="enter_button" />
 		</form>
 	<?php
 		$error_msg = layout_get_error_message();
