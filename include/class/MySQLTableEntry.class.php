@@ -63,6 +63,13 @@ class MySQLTableEntry {
 		return $this->values[$key];
 	}
 
+	public function getIntValue($key) {
+		if (is_null_or_empty($this->values[$key])) {
+			return null;
+		}
+		return intval($this->values[$key]);
+	}
+
 	/**
 	 *
 	 */

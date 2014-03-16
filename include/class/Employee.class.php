@@ -77,7 +77,7 @@ class Employee extends MySQLTableEntry {
 		} else if ($this->count(array('id' => $id_superieur)) > 0) { // Verifie si l'employee existe
 			$this->superieur = new Employee($this->getPDO(), $id_superieur);
 		} else {
-			throw new Exception('Le sup�rieur n\'existe pas: id=' . $id_superieur);
+			throw new Exception('Le supérieur n\'existe pas: id=' . $id_superieur);
 		}
 
 		parent::store();
@@ -140,7 +140,12 @@ class Employee extends MySQLTableEntry {
 
 	private function loadSoldes() {
 		$s = new Solde($this->getPDO());
-		$this->soldes = $s->selectAll('id_Employee='.$this->getValue('id'));
+		$soldes = $s->selectAll('id_Employee='.$this->getValue('id'));
+
+		$this->soldes = array();
+		foreach ($soldes as $solde) {
+			$this->soldes[] = new Solde($this->getPDO(), $solde);
+		}
 	}
 
 	public static function getAll($pdo, $other = '') {
@@ -183,6 +188,17 @@ class Employee extends MySQLTableEntry {
 	}
 
 	public function getConges() {
+		$c = new Conge($this->getPDO());
+		$conges = $c->selectAll('id_Employee='.$this->getValue('id'));
+		$result = array();
+		foreach ($conges as $conge) {
+			$c = new Conge($this->getPDO(), $conge);
+			$c->setEmployee($this);
+			$c->loadStatus();
+			$c->loadType();
+			$result[] = $c;
+		}
+		return $result;
 	}
 
 	public function hasSubordinate() {

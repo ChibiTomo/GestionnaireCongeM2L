@@ -3,7 +3,7 @@
 class StatusConge extends MySQLTableEntry {
 	const TABLE = 'statusconge';
 
-	public function __construct($pdo, array $arg = array()) {
+	public function __construct($pdo, $arg = array()) {
 		parent::__construct($pdo, StatusConge::TABLE, $arg);
 	}
 

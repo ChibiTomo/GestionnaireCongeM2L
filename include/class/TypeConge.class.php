@@ -5,7 +5,7 @@ class TypeConge extends MySQLTableEntry {
 	public function __construct($pdo, $args = array()) {
 		if (is_string($args)) {
 			parent::__construct($pdo, TypeConge::TABLE, array( 'label' => $args ));
-		} else if (is_array($args)) {
+		} else {
 			parent::__construct($pdo, TypeConge::TABLE, $args);
 		}
 	}
