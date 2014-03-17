@@ -1,6 +1,6 @@
 <head>
-	<title>Gestionaire de congé<?php echo layout_get_title(true); ?></title>
 	<meta charset="UTF-8" />
+	<title>Gestionaire de congé<?php echo layout_get_title(true); ?></title>
 
 	<script src="jscript/jquery-1.10.2.min.js"></script>
 

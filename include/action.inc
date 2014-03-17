@@ -4,8 +4,7 @@ function action_manage() {
 	debug_var('_SESSION');
 	switch($_GET[FIELD_ACTION]) {
 		case ACTION_RETRIEVE:
-			$employee = core_need_authentication();
-			action_retrieve($employee);
+			action_retrieve();
 			break;
 
 		case ACTION_ADMINISTRATE:
@@ -90,17 +89,34 @@ function action_authenticate() {
 	redirect_to('?action=' . ACTION_SIGNIN);
 }
 
-function action_retrieve($employee) {
+function action_retrieve() {
 	if (is_null_or_empty($_GET[FIELD_TYPE])) {
 		error(ERROR_WRONG_TYPE, 'No type given.');
 		return;
 	}
 
 	switch($_GET[FIELD_TYPE]) {
+		case TYPE_PASSWORD:
+			core_set_state(STATE_RETRIEVE_PASSWORD);
+			break;
+
 		case TYPE_SUMMARY:
+			$employee = core_need_authentication();
 			core_set_state(STATE_SUMMARY);
 			action_retrieve_solde($employee);
 			action_retrieve_conge($employee);
+			break;
+
+		case TYPE_MY_DEMANDS:
+			$employee = core_need_authentication();
+			core_set_state(STATE_MY_DEMANDS);
+			action_retrieve_my_demands($employee);
+			break;
+
+		case TYPE_DEMANDS:
+			$employee = core_need_authentication();
+			core_set_state(STATE_DEMANDS);
+			action_retrieve_demands($employee);
 			break;
 
 		default:
@@ -117,6 +133,35 @@ function action_retrieve_solde($employee) {
 function action_retrieve_conge($employee) {
 	global $g_layout;
 	$g_layout[DISPLAY_CONGES] = $employee->getConges();
+}
+
+function action_retrieve_demands($employee) {
+	global $g_layout;
+	if (!$employee->hasSubordinate()) {
+		core_set_state(STATE_NOT_ALLOWED);
+		return;
+	}
+
+	$g_layout[DISPLAY_CONGES] = array();
+	foreach ($employee->getSubordinates() as $emp) {
+		foreach ($emp->getConges() as $conge) {
+			if ($conge->getStatus()->is(CONGE_STATUS_PENDING)) {
+				$g_layout[DISPLAY_CONGES][] = $conge;
+			}
+		}
+	}
+}
+
+function action_retrieve_my_demands($employee) {
+	global $g_pdo;
+	global $g_layout;
+
+	$g_layout[DISPLAY_CONGES] = array();
+	foreach ($employee->getConges() as $conge) {
+		if ($conge->getStatus()->is(CONGE_STATUS_PENDING)) {
+			$g_layout[DISPLAY_CONGES][] = $conge;
+		}
+	}
 }
 
 function action_administrate($employee) {

@@ -47,7 +47,10 @@ define('STATE_DEFAULT', 'root');
 define('STATE_SIGNIN', 'signin');
 define('STATE_ADMINISTRATE', 'administrate');
 define('STATE_SUMMARY', 'summary');
+define('STATE_MY_DEMANDS', 'my_demands');
+define('STATE_DEMANDS', 'demands');
 define('STATE_NOT_ALLOWED', 'not_allowed');
+define('STATE_RESET_PASSWORD', 'reset_password');
 define('STATE_ERROR_WRONG_STATE', 'error_wrong_state');
 define('STATE_ERROR_404', 'error_404');
 define('STATE_ERROR', 'error');
@@ -77,10 +80,6 @@ define('DISPLAY_SOLDES', 'soldes');
 define('DISPLAY_IS_LOGGED', 'is_logged');
 define('DISPLAY_TITLE', 'title');
 define('DISPLAY_HEAD_TITLE', 'head_title');
-
-// Constantes des nom de page/fichier_page
-define('PAGE_ERROR', 'error');
-define('PAGE_ERROR_404', 'error_404');
 
 // Constantes des erreurs
 define('ERROR_WRONG_ACTION', 0);

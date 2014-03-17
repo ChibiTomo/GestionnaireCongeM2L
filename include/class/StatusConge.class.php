@@ -15,6 +15,10 @@ class StatusConge extends MySQLTableEntry {
 		return $this->count($array) > 0;
 	}
 
+	public function is($status) {
+		return $this->getValue('id') == $status;
+	}
+
 	public static function getAll($pdo) {
 		$records = parent::getAll($pdo, StatusConge::TABLE);
 		$status = array();

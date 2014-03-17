@@ -2,7 +2,7 @@
 
 function error($code, $msg = '') {
 	core_set_error_message($msg);
-	redirect_to(HOST . '?action=' . ACTION_ERROR . '&type=' . ERROR_404);
+	redirect_to(HOST . '?action=' . ACTION_ERROR . '&type=' . $code);
 }
 
 function error_get_error($code) {

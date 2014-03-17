@@ -121,8 +121,7 @@ function core_manage_page() {
 
 	if (!file_exists($page)) {
 		debug('file does not exists');
-		core_set_error_message($page_name . '.php does not exists.');
-		$page = LAYOUT_DIR . '/' . PAGE_ERROR_404 . '.php';
+		error(ERROR_404, $page_name . '.php does not exists.');
 	}
 
 	debug('page_name=' . $page_name);

@@ -1,12 +1,14 @@
 <?php
 
 class Conge extends MySQLTableEntry {
+	const TABLE = 'conge';
+
 	private $employee;
 	private $status;
 	private $type;
 
 	public function __construct($pdo, $arg = array()) {
-		parent::__construct($pdo, 'conge', $arg);
+		parent::__construct($pdo, Conge::TABLE, $arg);
 	}
 
 	public function setDebut($timestamp) {
@@ -67,7 +69,7 @@ class Conge extends MySQLTableEntry {
 			throw new Exception('No id given to load TypeConge.');
 		}
 
-		$this->type = new TypeConge($this->getPDO(), $id);
+		$this->setType(new TypeConge($this->getPDO(), $id));
 	}
 
 	public function loadStatus($id = null) {
@@ -79,7 +81,32 @@ class Conge extends MySQLTableEntry {
 			throw new Exception('No id given to load StatusConge.');
 		}
 
-		$this->status = new StatusConge($this->getPDO(), $id);
+		$this->setStatus(new StatusConge($this->getPDO(), $id));
+	}
+
+	public function loadEmployee($id = null) {
+		if ($id == null) {
+			$id = $this->getIntValue('id_Employee');
+		}
+
+		if (!is_int($id)) {
+			throw new Exception('No id given to load StatusConge.');
+		}
+
+		$this->setEmployee(new Employee($this->getPDO(), $id));
+	}
+
+	public static function getAll($pdo, $other = '') {
+		$records = parent::getAll($pdo, Conge::TABLE, $other);
+		$conges = array();
+		foreach ($records as $record) {
+			$conge = new Conge($pdo, $record);
+			$conge->loadEmployee();
+			$conge->loadStatus();
+			$conge->loadType();
+			$conges[] = $conge;
+		}
+		return $conges;
 	}
 
 	public function store() {

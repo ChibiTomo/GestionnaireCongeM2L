@@ -5,6 +5,7 @@ class Employee extends MySQLTableEntry {
 	private $superieur;
 	private $services = array();
 	private $soldes = array();
+	private $conges = array();
 
 	public function __construct($pdo, $arg = array(), $load = false) {
 		parent::__construct($pdo, Employee::TABLE, $arg, $load);
@@ -188,17 +189,10 @@ class Employee extends MySQLTableEntry {
 	}
 
 	public function getConges() {
-		$c = new Conge($this->getPDO());
-		$conges = $c->selectAll('id_Employee='.$this->getValue('id'));
-		$result = array();
-		foreach ($conges as $conge) {
-			$c = new Conge($this->getPDO(), $conge);
-			$c->setEmployee($this);
-			$c->loadStatus();
-			$c->loadType();
-			$result[] = $c;
+		if ($this->conges == array()) {
+			$this->conges = Conge::getAll($this->getPDO(), 'WHERE id_Employee='.$this->getValue('id'));
 		}
-		return $result;
+		return $this->conges;
 	}
 
 	public function hasSubordinate() {
@@ -206,6 +200,10 @@ class Employee extends MySQLTableEntry {
 			'id_Superieur' => $this->getValue('id'),
 		);
 		return $this->count($array) > 0;
+	}
+
+	public function getSubordinates() {
+		return Employee::getAll($this->getPDO(), 'WHERE id_Superieur='.$this->getValue('id'));
 	}
 
 	public function isAdmin() {
