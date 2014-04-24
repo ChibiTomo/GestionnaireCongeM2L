@@ -26,8 +26,8 @@ class Appartenir extends MySQLTableEntry {
 		return $result;
 	}
 
-	public static function getAll($pdo) {
-		$records = parent::getAll($pdo, Appartenir::TABLE);
+	public static function getAll($pdo, $other = '') {
+		$records = parent::getAll($pdo, Appartenir::TABLE, $other);
 		$links = array();
 		foreach ($records as $record) {
 			$links[] = new Appartenir($pdo, $record);

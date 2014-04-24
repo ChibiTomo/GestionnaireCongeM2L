@@ -19,8 +19,9 @@ $types_conge = layout_get_conge_types();
 						<input type="text" name="lastname" placeholder="Nom" />
 						<input type="text" name="firstname" placeholder="Prenom" />
 						<input type="text" name="email" placeholder="E-Mail" />
-						<input type="text" name="login" placeholder="Login" /><br/>
-						Type d'utilisateur: <select name="type">
+						<input type="text" name="login" placeholder="Login" />
+						<input type="password" name="password" placeholder="Mot de passe" /><br/>
+						Type d'utilisateur: <select name="id_UserType">
 <?php
 
 foreach ($user_types as $type) {
@@ -32,8 +33,8 @@ foreach ($user_types as $type) {
 ?>
 
 						</select>
-						<select name="superior">
-							<option>Pas de supérieur</option>
+						<select name="id_Superieur">
+							<option value="-1">Pas de supérieur</option>
 <?php
 
 foreach ($employees as $employee) {
@@ -94,20 +95,22 @@ foreach ($employees as $employee) {
 						<td data-name="firstname">{$firstname}</td>
 						<td data-name="email">{$email}</td>
 						<td data-name="login">{$login}</td>
-						<td data-name="type" data-value="{$type_id}">{$type}</td>
-						<td data-name="superior" data-value=
+						<td data-name="id_UserType" data-value="{$type_id}">{$type}</td>
+						<td data-name="id_Superieur" data-value=
 EOF;
 if ($superieur != null) {
 	echo '"' . $superieur->getValue('id') . '">' .
 		$superieur->getValue('firstname') . ' ' . $superieur->getValue('lastname');
+} else {
+	echo '"">';
 }
 	echo <<<EOF
 </td>
 						<td data-name="services" data-value=
 
 EOF;
-	$servs = [];
-	$servs_id = [];
+	$servs = array();
+	$servs_id = array();
 	foreach ($emp_services as $service) {
 		$servs_id[] = $service->getValue('id');
 		$servs[] = $service->getValue('label');
@@ -167,6 +170,7 @@ EOF;
 					Ajouter un type:
 					<form method="POST" action="?action=<?php echo ACTION_CREATE; ?>&amp;type=<?php echo TYPE_TYPE_CONGE; ?>">
 						<input type="text" name="label" placeholder="Nom" />
+						<input type="number" name="base" placeholder="Nombre de base" />
 						<input type="submit" class="button green"value="Ajouter" />
 					</form>
 				</div>
@@ -210,8 +214,9 @@ EOF;
 			<input type="text" name="lastname" placeholder="Nom" />
 			<input type="text" name="firstname" placeholder="Prenom" />
 			<input type="text" name="email" placeholder="E-Mail" />
-			<input type="text" name="login" placeholder="Login" /><br/>
-			Type d'utilisateur: <select name="type">
+			<input type="text" name="login" placeholder="Login" />
+			<input type="password" name="password" placeholder="Mot de passe" /><br/>
+			Type d'utilisateur: <select name="id_UserType">
 <?php
 
 foreach ($user_types as $type) {
@@ -223,8 +228,8 @@ foreach ($user_types as $type) {
 ?>
 
 			</select>
-			<select name="superior">
-				<option>Pas de supérieur</option>
+			<select name="id_Superieur">
+				<option value="-1">Pas de supérieur</option>
 <?php
 
 foreach ($employees as $employee) {
@@ -357,6 +362,7 @@ dialogs.delete = new yt.Dialog('#delete', {
 $('.button.update').click(function() {
 	var dname = 'update_' + $(this).attr('data-type');
 	var tds = $(this).parent().parent().find('td');
+	var id = $(this).parent().parent().find('td[data-name=id]').html();
 	tds.each(function() {
 		var dialog = dialogs[dname].getElement();
 		var name = $(this).attr('data-name');
@@ -373,12 +379,22 @@ $('.button.update').click(function() {
 					}
 				});
 			}
-		} else if (name == 'superior' || name == 'type') {
+		} else if (name == 'id_Superieur' || name == 'id_UserType') {
 			var value = $(this).attr('data-value');
 			var select = dialog.find('[name=' + name + ']');
 			select.find(':selected').removeAttr('selected');
 			select.find('[value=' + value + ']')
 				.attr('selected','selected');
+			if (name == 'id_Superieur') {
+				var options = dialog.find('[name=' + name + ']').find('option');
+				console.log(options);
+				options.show();
+				options.each(function() {
+					if ($(this).val() == id) {
+						$(this).hide();
+					}
+				});
+			}
 		} else {
 			dialog.find('[name=' + name + ']').val($(this).html());
 		}
@@ -399,7 +415,7 @@ $('.button.delete').click(function() {
 	var dialog = dialogs.delete.getElement();
 	dialog.find('b').html(name);
 	dialog.find('[name=id]').val(id);
-	dialog.find('form').attr('action', '?action=<?php echo ACTION_DELETE; ?>&amp;type=' + type);
+	dialog.find('form').attr('action', '?action=<?php echo ACTION_DELETE; ?>&type=' + type);
 	dialogs.delete.open();
 });
 	</script>

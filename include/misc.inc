@@ -85,10 +85,19 @@ function endsWith($haystack, $needle) {
 }
 
 function delete_spe_char($str) {
-	return strtr($str,
-		'àáâãäçèéêëìíîïñòóôõöùúûüıÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜİ',
-		'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY'
-	);
+	$spestr  = 'Ã |Ã¤|Ã£|Ã¢|È|Ã§|Ã©|Ã¨|Ãª|Ã«|Ã¯|Ã®| | |Ã±|Ã¶|Ã´| | | |Ã¼|Ã»|Ã¹| | | |Ã€|Ã„|Ã‚| | |Ã‡|Ã‰|Ãˆ|Ã‹|ÃŠ|Ã|Ã| | |Ã‘|Ã–|Ã”| | | |Ãœ|Ã›|Ã™| | ';
+	$normstr = 'a|a|a|a|a|c|e|e|e|e|i|i|i|i|n|o|o|o|o|o|u|u|u|u|y|y|A|A|A|A|A|C|E|E|E|E|I|I|I|I|N|O|O|O|O|O|U|U|U|U|Y';
+
+	if (!preg_match('#['.$spestr.']#', $str)) {
+		return $str;
+	}
+
+	$spe_a = preg_split('#[|]+#', $spestr);
+	$norm_a = preg_split('#[|]+#', $normstr);
+
+	$str = str_replace($spe_a, $norm_a, $str);
+
+	return $str;
 }
 
 function is_null_or_empty(&$var) {

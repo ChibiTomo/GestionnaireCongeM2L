@@ -15,7 +15,7 @@ $conge_types = layout_get_conge_types();
 				<tr>
 					<th>Date de début</th>
 					<td>
-						<input type="text" data-type="date" name="date_start" />
+						<input type="text" data-type="date" name="date_start" placeholder="jj/mm/aaaa" />
 					</td>
 				</tr>
 				<tr>
@@ -24,14 +24,14 @@ $conge_types = layout_get_conge_types();
 					</td>
 					<td>
 						<input type="radio" name="all_day_long_start" value="0" /> Heure précise<br/>
-						<input type="text" data-type="hour" name="hour_start" disabled/>
+						<input type="text" data-type="hour" name="hour_start" placeholder="hh:mm" disabled/>
 					</td>
 				</tr>
 
 				<tr>
 					<th>Date de fin</th>
 					<td>
-						<input type="text" data-type="date" name="date_end" />
+						<input type="text" data-type="date" name="date_end" placeholder="jj/mm/aaaa" />
 					</td>
 				</tr>
 				<tr>
@@ -40,13 +40,13 @@ $conge_types = layout_get_conge_types();
 					</td>
 					<td>
 						<input type="radio" name="all_day_long_end" value="0" /> Heure précise<br/>
-						<input type="text" data-type="hour" name="hour_end" disabled/>
+						<input type="text" data-type="hour" name="hour_end" placeholder="hh:mm" disabled/>
 					</td>
 				</tr>
 				<tr>
 					<th>Type de congé:</th>
 					<td>
-						<select name="type_conge">
+						<select name="<?php echo FIELD_TYPE_CONGE; ?>">
 <?php
 
 foreach ($conge_types as $type) {
@@ -59,8 +59,8 @@ foreach ($conge_types as $type) {
 				</tr>
 			</table>
 			<div class="button green">Effectuer une demande</div>
-			<input type="hidden" name="start" />
-			<input type="hidden" name="end" />
+			<input type="hidden" name="<?php echo FIELD_START_T; ?>" />
+			<input type="hidden" name="<?php echo FIELD_END_T; ?>" />
 		</form>
 	</div>
 	<div id="container">
@@ -160,17 +160,19 @@ function check_form() {
 
 		var hour_end_val = hour_end.val();
 		if (!ends_at_precise_hour) {
-			hour_end_val = '';
+			hour_end_val = '23h59';
 		}
 		var t_start = yt.getTimestamp(date_start.val() + ' ' + hour_start_val, '%d/%m/%Y %Hh%M');
 		var t_end = yt.getTimestamp(date_end.val() + ' ' + hour_end_val, '%d/%m/%Y %Hh%M');
-		$('#add_conge [name=start]').val(t_start);
-		$('#add_conge [name=end]').val(t_end);
+		$('#add_conge [name=<?php echo FIELD_START_T; ?>]').val(t_start);
+		$('#add_conge [name=<?php echo FIELD_END_T; ?>]').val(t_end);
+
+		var now = Math.round((new Date()).getTime() / 1000);
 
 		if (t_start == t_end) {
 			t_end += (3600 * 24) - 1;
 			$('#add_conge [name=end]').val(t_end);
-		} else if (t_start > t_end) {
+		} else if (t_start > t_end || t_start < now || t_end < now) {
 			date_start.addClass('error');
 			date_end.addClass('error');
 			if (starts_at_precise_hour) {
@@ -192,8 +194,8 @@ $('#add_conge .button').click(function() {
 	}
 	var starts_at_precise_hour = $('#add_conge [name=all_day_long_start][value=0]').is(':checked');
 	var ends_at_precise_hour = $('#add_conge [name=all_day_long_end][value=0]').is(':checked');
-	var t_start = parseInt($('#add_conge [name=start]').val());
-	var t_end = parseInt($('#add_conge [name=end]').val());
+	var t_start = parseInt($('#add_conge [name=<?php echo FIELD_START_T; ?>]').val());
+	var t_end = parseInt($('#add_conge [name=<?php echo FIELD_END_T; ?>]').val());
 	var type_conge_label = $('#add_conge [name=type_conge] option:selected').html();
 
 	var end_format = '%D %d %m %Y à %Hh%M';
@@ -206,7 +208,6 @@ $('#add_conge .button').click(function() {
 	}
 	var el = dialog.getElement();
 	el.find('[data-name=type]').html(type_conge_label);
-	console.log((t_end - t_start) + ' ' + (3600 * 24));
 	if (t_end - t_start == (3600 * 24) - 1 && yt.getDate(t_start, '%d') == yt.getDate(t_end, '%d')) {
 		el.find('[data-type=one_day]').show();
 		el.find('[data-type=period]').hide();

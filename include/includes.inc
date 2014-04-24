@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Ce fichier inclue tous les fichiers nécessaire aux fonctionnement du site.
- * C'est lui qui est à inclure dans les autres pages.
+ * Ce fichier inclue tous les fichiers nï¿½cessaire aux fonctionnement du site.
+ * C'est lui qui est ï¿½ inclure dans les autres pages.
  */
 
 // Fichier contenant l'autoloder de Classe
@@ -22,6 +22,7 @@ require_once ROOT_DIR . '/include/globals.inc';
 
 // Inclusion du reste des fichiers
 require_once ROOT_DIR . '/include/misc.inc';
+require_once ROOT_DIR . '/include/format.inc';
 require_once ROOT_DIR . '/include/core.inc';
 require_once ROOT_DIR . '/include/action.inc';
 require_once ROOT_DIR . '/include/layout.inc';

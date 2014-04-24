@@ -9,7 +9,7 @@
 				.appendTo('body')
 				.hide();
 		}
-		var box = yt.Box(selector, options);
+		var box = new yt.Box(selector, options);
 		var dialog = $('<div/>')
 			.addClass('yt_dialog')
 			.append($(selector))
@@ -32,6 +32,10 @@
 
 		this.getElement = function() {
 			return dialog;
+		};
+		
+		this.setTitle = function(title) {
+			box.setTitle(title);
 		};
 	};
 })(yt)

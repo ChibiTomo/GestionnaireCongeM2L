@@ -1,18 +1,18 @@
 <?php
 /**
- * Ceci est le fichier de configuration de la base de donn�es.
- * Il contient toute les variables globales n�cessaires � l'installation
+ * Ceci est le fichier de configuration de la base de données.
+ * Il contient toute les variables globales nécessaires à l'installation
  * automatique d'une base neuve.
  */
 
 /**
- * Active/d�sactive le mode de debug (true/false)
+ * Active/désactive le mode de debug (true/false)
  */
 define('DEBUG_MODE', true);
 
 
 /**
- * Cette variable contient les noms des diff�rents types d'utilisateur.
+ * Cette variable contient les noms des différents types d'utilisateur.
  *
  * /!\ LES ID DOIVENT CORRESPONDRE A LA VALEUR DES CONSTANTES /!\
  * @var array
@@ -43,19 +43,19 @@ define('USER_TYPE_NORMAL', 2); 	// Normal
 $g_cfg_services = array('Comptabilité', 'Réservation', 'Ressources humaines', 'Direction');
 
 /**
- * Cette variable contient les noms des diff�rents types de cong�.
+ * Cette variable contient les noms des différents types de congé.
  * @var array
  */
 $g_cfg_types_conge = array('CP', 'RTT');
 
 /**
- * Cette variable contient les soldes de d�part des diff�rents types de cong�.
+ * Cette variable contient les soldes de départ des différents types de congé.
  * @var array
  */
 $g_cfg_solde_depart = array(22, 3);
 
 /**
- * Cette variable contient les noms des diff�rents �tats des conges.
+ * Cette variable contient les noms des différents états des conges.
  *
  * /!\ LES ID DOIVENT CORRESPONDRE A LA VALEUR DES CONSTANTES /!\
  * @var array
@@ -67,26 +67,26 @@ $g_cfg_status_conge = array(
 	),
 	array(
 		'id' => 2,
-		'label' => 'Accept�',
+		'label' => 'Accepté',
 	),
 	array(
 		'id' => 3,
-		'label' => 'Refus�',
+		'label' => 'Refusé',
 	),
 );
 
 /**
- * Ces constantes permettent d'obtenir l'id du status recherch�.
+ * Ces constantes permettent d'obtenir l'id du status recherché.
  *
  * /!\ LES VALEURS DOIVENT CORRESPONDRE AUX ID DES STATUS /!\
  */
 define('CONGE_STATUS_PENDING', 1); 		// En attente
-define('CONGE_STATUS_ACCEPTED', 2); 	// Accept�
-define('CONGE_STATUS_REFUSED', 3);		// Refus�
+define('CONGE_STATUS_ACCEPTED', 2); 	// Accepté
+define('CONGE_STATUS_REFUSED', 3);		// Refusé
 
 $g_cfg_employee_firstnames = array(
 	'Jacque', 'Remi', 'Martin', 'Patrique', 'Lucque', 'Robert',
-	'Marie', 'Andr�a', '�l�onore', 'Elza', 'Julie', 'Sylvie',
+	'Marie', 'Andréa', 'Éléonore', 'Elza', 'Julie', 'Sylvie',
 );
 
 $g_cfg_employee_lastnames = array(

@@ -1,4 +1,6 @@
 <?php
+header("Content-Type: text/html; charset=utf-8");
+date_default_timezone_set('Europe/Paris');
 
 define('ROOT_DIR', dirname(__FILE__));
 require_once ROOT_DIR . '/include/includes.inc';

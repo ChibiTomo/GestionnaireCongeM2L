@@ -33,10 +33,10 @@
 var box = new yt.Box('#connexion_box', {
 	title: 'My title',
 	buttons: {
-		'Mot de passe oublié': {
-			type: 'link',
-			action: '<?php echo HOST . '?action=' . ACTION_RETRIEVE . '&amp;type=' . TYPE_PASSWORD; ?>'
-		},
+//		'Mot de passe oublié': {
+//			type: 'link',
+//			action: '<?php echo HOST . '?action=' . ACTION_RETRIEVE . '&amp;type=' . TYPE_PASSWORD; ?>'
+//		},
 		Connexion: {
 			type: 'button',
 			class: 'green',

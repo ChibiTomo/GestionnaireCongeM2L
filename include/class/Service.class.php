@@ -27,6 +27,14 @@ class Service extends MySQLTableEntry {
 		}
 		return $services;
 	}
+
+	public function delete() {
+		$apps = Appartenir::getAll($this->getPDO(), 'WHERE id_Service=' . $this->getValue('id'));
+		foreach ($apps as $app) {
+			$app->delete();
+		}
+		parent::delete();
+	}
 }
 
 ?>

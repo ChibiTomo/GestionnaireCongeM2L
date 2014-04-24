@@ -59,7 +59,7 @@ function install_create_db() {
 	$db_name = MYSQL_DBNAME;
 	$pdo->exec('DROP DATABASE IF EXISTS ' . $db_name);
 
-	// Crée la nouvelle base de donnée
+	// Créé la nouvelle base de donnée
 	$create_query = <<<EOF
 CREATE DATABASE IF NOT EXISTS ${db_name} DEFAULT CHARACTER SET = 'utf8';
 USE ${db_name};
@@ -133,10 +133,11 @@ function install_populate_employee($pdo) {
 	global $g_cfg_employee_email;
 
 	$lastnames_length = count($g_cfg_employee_lastnames);
+	debug($g_cfg_employee_firstnames);
 
 	$employees = array();
 	for ($i = 0; $i < count($g_cfg_employee_firstnames); $i++) {
-		$login = delete_spe_char(strtolower(
+		$login = strtolower(delete_spe_char(
 			substr($g_cfg_employee_lastnames[$i], 0, 2) . $g_cfg_employee_firstnames[$i]
 		));
 		$email = $login . $g_cfg_employee_email;
@@ -165,6 +166,7 @@ function install_populate_employee($pdo) {
 		$service = $g_cfg_services[floor(rand(0, $service_size - 1))];
 		$employee = new Employee($pdo, $employees[$i]);
 		$employee->addService($service);
+		debug($employee);
 		$employee->store();
 	}
 }
@@ -174,22 +176,24 @@ function install_populate_solde($pdo) {
 
 	$employees = Employee::getAll($pdo);
 	$typesConge = TypeConge::getAll($pdo);
-	$year = date('Y', time());
+	$years = array(2013, 2014, 2015);
 
 	foreach ($employees as $employee) {
 		$idEmployee = $employee->getValue('id');
 		$i = 0;
 		foreach ($typesConge as $typeConge) {
-			$solde = $g_cfg_solde_depart[$i%count($g_cfg_solde_depart)];
-			$values = array(
-				'annee' => $year,
-				'solde' => $solde,
-				'id_Employee' => $idEmployee,
-				'id_TypeConge' => $typeConge->getValue('id'),
-			);
+			$solde = $g_cfg_solde_depart[$i % count($g_cfg_solde_depart)];
+			foreach ($years as $year) {
+				$values = array(
+					'annee' => $year,
+					'solde' => $solde,
+					'id_Employee' => $idEmployee,
+					'id_TypeConge' => $typeConge->getValue('id'),
+				);
 
-			$solde = new Solde($pdo, $values);
-			$solde->store();
+				$solde_o = new Solde($pdo, $values);
+				$solde_o->store();
+			}
 			$i++;
 		}
 	}
@@ -208,15 +212,15 @@ function install_populate_conge($pdo) {
 	$dates = array(
 		'passe' => array(
 			'start' => $now - (3 * $day),
-			'end' => $now - (2 * $day),
+			'end' => $now - (2 * $day) - 1,
 		),
 		'present' => array(
 			'start' => $now - (1 * $day),
-			'end' => $now + (1 * $day),
+			'end' => $now + (2 * $day) - 1,
 		),
 		'futur' => array(
 			'start' => $now + (2 * $day),
-			'end' => $now + (3 * $day),
+			'end' => $now + (4 * $day) - 1,
 		),
 	);
 
@@ -234,6 +238,24 @@ function install_populate_conge($pdo) {
 			$conge->setStatus($status);
 			$conge->setType($type);
 			debug($conge);
+			$conge->store();
+		}
+	}
+
+	$subordinates = $employee->getSubordinates();
+	$status = new StatusConge($pdo, 1);
+
+	foreach ($subordinates as $sub) {
+		foreach ($dates as $date) {
+			$typeId = floor(rand(0, count($typesConge) - 1));
+			$type = $typesConge[$typeId];
+
+			$conge = new Conge($pdo);
+			$conge->setDebut($date['start']);
+			$conge->setFin($date['end']);
+			$conge->setEmployee($sub);
+			$conge->setStatus($status);
+			$conge->setType($type);
 			$conge->store();
 		}
 	}

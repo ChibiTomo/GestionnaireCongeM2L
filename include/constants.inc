@@ -5,7 +5,7 @@
  * constantes de configuration.
  */
 
-// G�n�re la constante HOST pour l'url du site
+// Génère la constante HOST pour l'url du site
 $base_url = 'http://' . $_SERVER['SERVER_NAME'] . dirname($_SERVER['SCRIPT_NAME']);
 if (substr($base_url, -1) == "/") {
 	$base_url = substr($base_url, 0, 0);
@@ -13,7 +13,7 @@ if (substr($base_url, -1) == "/") {
 define('HOST', $base_url);
 define('LAYOUT_DIR', ROOT_DIR . '/layout');
 
-// D�finit les chemins des fichier de configurations
+// Définit les chemins des fichier de configurations
 define('CONFIG_FILE', ROOT_DIR . '/config.inc');
 define('MYSQL_CONFIG_FILE', ROOT_DIR . '/mysqlconfig.inc');
 
@@ -55,7 +55,7 @@ define('STATE_ERROR_WRONG_STATE', 'error_wrong_state');
 define('STATE_ERROR_404', 'error_404');
 define('STATE_ERROR', 'error');
 
-// Constantes des champs important (GET/SESSION)
+// Constantes des champs important (POST/GET/SESSION)
 define('FIELD_ACTION', 'action');
 define('FIELD_STATE', 'state');
 define('FIELD_PREVIOUS_URL', 'previous_url');
@@ -63,10 +63,15 @@ define('FIELD_SESSION_BORN_T', 'born_t');
 define('FIELD_LOGGED_USER_ID', 'logged_user_id');
 define('FIELD_PAGE', 'page');
 define('FIELD_TYPE', 'type');
+define('FIELD_TYPE_CONGE', 'type_conge');
 define('FIELD_LOGIN', 'login');
 define('FIELD_EMPLOYEE', 'employee');
 define('FIELD_PASSWORD', 'pwd');
 define('FIELD_ERROR_MESSAGE', 'error_message');
+define('FIELD_START_T', 'start_t');
+define('FIELD_END_T', 'end_t');
+define('FIELD_ID', 'id');
+define('FIELD_STATUS', 'status');
 
 // Constantes des champs display
 define('DISPLAY_PAGE', 'page');
@@ -86,5 +91,7 @@ define('ERROR_WRONG_ACTION', 0);
 define('ERROR_404', 1);
 define('ERROR_UNKNOWN', 2);
 define('ERROR_WRONG_TYPE', 3);
+define('ERROR_NO_ID', 4);
+define('ERROR_NO_INFO', 5);
 
 ?>

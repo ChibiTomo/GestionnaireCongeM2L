@@ -33,8 +33,6 @@ class Employee extends MySQLTableEntry {
 		$this->loadServices();
 		$this->loadSoldes();
 
-		$id_service = $this->getValue('id_Superieur');
-
 		$id_superieur = intval($this->getValue('id_Superieur'));
 		if ($id_superieur < 1 || $this->count(array('id' => $id_superieur)) < 1) {
 			return;
@@ -43,7 +41,11 @@ class Employee extends MySQLTableEntry {
 	}
 
 	public function setSuperieur($id) {
-		$this->superieur = new Employee($this->getPDO(), $id);
+		if ($id == null) {
+			$this->superieur = null;
+		} else {
+			$this->superieur = new Employee($this->getPDO(), $id);
+		}
 		$this->setValue('id_Superieur', $id);
 	}
 
@@ -61,16 +63,20 @@ class Employee extends MySQLTableEntry {
 		}
 	}
 
+	public function emptyService() {
+		$this->services = array();
+	}
+
 	public function store() {
 		$values = $this->getValues();
 
-		// Verifie que le type d'utilisateur donn� existe
+		// Verifie que le type d'utilisateur donné existe
 		$ut = new UserType($this->getPDO(), $this->getValue('id_UserType'));
 		if (!isset($values['id_UserType']) || !$ut->exists()) {
 			$this->setValue('id_UserType', USER_TYPE_NORMAL);
 		}
 
-		// Verifie que le sup�rieur donn� existe
+		// Verifie que le supérieur donné existe
 		$id_superieur = intval($this->getValue('id_Superieur')); // 0 = Pas de superieur
 		if ($id_superieur == 0) {
 			$this->superieur = null;
@@ -87,7 +93,10 @@ class Employee extends MySQLTableEntry {
 	}
 
 	public function update() {
-		parent::update();
+		if (is_null_or_empty($this->getValue('password'))) {
+			$this->removeValue('password');
+		}
+		parent::update_p('id=' . $this->getValue('id'));
 		$this->updateServices();
 		$this->updateSoldes();
 	}
@@ -104,7 +113,7 @@ class Employee extends MySQLTableEntry {
 
 		// Supprime les liens inutiles
 		foreach ($links as $link) {
-			$this->updateLink($link);
+			$this->updateService($link);
 		}
 
 		// Ajoute les nouveaux liens
@@ -121,7 +130,7 @@ class Employee extends MySQLTableEntry {
 	}
 
 	private function updateService($link) {
-		foreach ($this->sevices as $service) {
+		foreach ($this->services as $service) {
 			if ($service->getValue('id') == $link->getValue('id_Service')) {
 				return;
 			}
@@ -188,11 +197,40 @@ class Employee extends MySQLTableEntry {
 		return $this->soldes;
 	}
 
+	public function getSolde($year, TypeConge $type) {
+		foreach ($this->getSoldes() as $solde) {
+			if ($solde->getValue('annee') == $year &&
+					$solde->getValue('id_TypeConge') == $type->getValue('id')) {
+				return $solde;
+			}
+		}
+		return null;
+	}
+
 	public function getConges() {
 		if ($this->conges == array()) {
 			$this->conges = Conge::getAll($this->getPDO(), 'WHERE id_Employee='.$this->getValue('id'));
 		}
+
+		$this->manageConge();
 		return $this->conges;
+	}
+
+	public function manageConge() {
+		$now = time();
+		$to_unset = array();
+		for ($i = 0; $i < count($this->conges); $i++) {
+			$conge = $this->conges[$i];
+			if ($conge->getStatus()->is(CONGE_STATUS_PENDING)
+					&& ($conge->getDebut() < $now || $conge->getFin() < $now)) {
+				$conge->delete();
+				$to_unset[] = $i;
+			}
+		}
+
+		foreach ($to_unset as $i) {
+			unset($this->conges[$i]);
+		}
 	}
 
 	public function hasSubordinate() {
@@ -208,6 +246,63 @@ class Employee extends MySQLTableEntry {
 
 	public function isAdmin() {
 		return $this->getValue('id_UserType') == USER_TYPE_ADMIN;
+	}
+
+	public function hasEnought($year, TypeConge $type, $askedAmount) {
+		$soldeN = $this->getSolde($year, $type);
+		$soldeN1 = $this->getSolde($year + 1, $type);
+		$amount = 0;
+
+		if ($soldeN != null) {
+			$amount += $soldeN->getAmount();
+		}
+		if ($soldeN1 != null) {
+			$amount += $soldeN1->getAmount();
+		}
+
+		return $amount >= $askedAmount;
+	}
+
+	public function decrement_solde($year, TypeConge $type, $amount) {
+		$this->increment_solde($year, $type, -$amount);
+	}
+
+	public function increment_solde($year, TypeConge $type, $amount) {
+		$soldeN = $this->getSolde($year, $type);
+		$total = $soldeN->getAmount() + $amount;
+		if ($total < 0) {
+			$soldeN->set(0);
+			$soldeN1 = $this->getSolde($year, $type);
+			$total = $soldeN1->getAmount() + $total;
+			$soldeN1->setAmount(0);
+			$soldeN1->update();
+		} else {
+			$soldeN->setAmount($total);
+		}
+
+		$soldeN->update();
+	}
+
+	public function delete() {
+		foreach ($this->soldes as $solde) {
+			$solde->delete();
+		}
+		foreach ($this->getConges() as $conge) {
+			$conge->delete();
+		}
+		$this->services = array();
+		$this->updateServices();
+
+		$emps = Employee::getAll($this->getPDO(), 'WHERE id_Superieur=' . $this->getValue('id'));
+		foreach ($emps as $emp) {
+			$emp->setSuperieur(null);
+			$emp->update();
+		}
+
+		if ($this->superieur == null) {
+			$this->removeValue('id_Superieur');
+		}
+		parent::delete();
 	}
 }
 

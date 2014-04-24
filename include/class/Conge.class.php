@@ -15,14 +15,14 @@ class Conge extends MySQLTableEntry {
 		if (!is_numeric($timestamp) || intval($timestamp) < 0) {
 			throw new Exception('A timestamp have to be a positive numeric.');
 		}
-		$this->setValue('debut_t', $timestamp);
+		$this->setValue('debut_t', intval($timestamp));
 	}
 
 	public function setFin($timestamp) {
 		if (!is_numeric($timestamp) || intval($timestamp) < 0) {
 			throw new Exception('A timestamp have to be a positive numeric.');
 		}
-		$this->setValue('fin_t', $timestamp);
+		$this->setValue('fin_t', intval($timestamp));
 	}
 
 	public function setEmployee(Employee $employee) {
@@ -58,6 +58,27 @@ class Conge extends MySQLTableEntry {
 
 	public function getType() {
 		return $this->type;
+	}
+
+	public function getQuantity() {
+		$qty = $this->getFin() - $this->getDebut();
+		$qty /= (60 * 60 * 24);
+
+		$qty = ceil($qty * 100) / 100;
+
+		return $qty;
+	}
+
+	public function load($values) {
+		parent::load($values);
+
+		if (!$this->getValues()) {
+			return;
+		}
+
+		$this->loadType();
+		$this->loadStatus();
+		$this->loadEmployee();
 	}
 
 	public function loadType($id = null) {
@@ -115,6 +136,10 @@ class Conge extends MySQLTableEntry {
 		}
 
 		parent::store();
+	}
+
+	public function update() {
+		parent::update_p('id=' . $this->getValue('id'));
 	}
 }
 

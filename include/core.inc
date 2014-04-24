@@ -162,4 +162,49 @@ function core_clean_error_message() {
 	unset($_SESSION[FIELD_ERROR_MESSAGE]);
 }
 
+function core_conge2html($conge, $to_validate = false) {
+	$start = format_date($conge->getDebut());
+	$end = format_date($conge->getFin());
+	$type = $conge->getType()->getValue('label');
+	$status = $conge->getStatus()->getValue('label');
+	$status_class = delete_spe_char(preg_replace('#\s#', '_', strtolower($status)));
+	$qty = $conge->getQuantity();
+
+	$button = '<div class="button red delete" data-id="' . $conge->getValue('id') . '">Supprimer</div>';
+	if (!$conge->getStatus()->is(CONGE_STATUS_PENDING)) {
+		$button = '';
+	}
+
+	$name = '';
+	if ($to_validate) {
+		$button = '<div class="button green validate" ' .
+				'data-id="' . $conge->getValue('id') . '" ' .
+				'data-status="' . CONGE_STATUS_ACCEPTED . '">Accepter</div>' .
+			'<div class="button red validate" ' .
+				'data-id="' . $conge->getValue('id') . '" ' .
+				'data-status="' . CONGE_STATUS_REFUSED . '">Refuser</div>';
+		$emp = $conge->getEmployee();
+		$name = 'Employee : <b>' . $emp->getValue('firstname') . ' ' . $emp->getValue('lastname') . '</b><br/>';
+	}
+
+	$content =  <<<EOF
+	<div class="conge">
+		<div class="title {$status_class}">
+			<div class="status">{$status}</div>
+			{$type}
+		</div>
+		<div class="content">
+			{$name}
+			Début : <b>{$start}</b><br/>
+			Fin : <b>{$end}</b><br/>
+			Quantité : <b>{$qty}</b>
+		</div>
+		<div class="buttons">
+			{$button}
+		</div>
+	</div>
+EOF;
+		return $content;
+}
+
 ?>

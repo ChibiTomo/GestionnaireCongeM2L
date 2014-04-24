@@ -50,6 +50,9 @@
 				.html(buttonName)
 				.appendTo(button_container);
 		}
-
+		
+		this.setTitle = function(new_title) {
+			title.html(new_title);
+		};
 	};
 })(yt)

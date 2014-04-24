@@ -1,0 +1,57 @@
+
+#tab .body > div > div {
+	padding: 0px;
+	box-sizing: border-box;
+}
+
+.conge {
+	display: inline-block;
+	width: 350px;
+	margin: 20px 30px;
+
+	text-align: left;
+
+	border-radius: 2px;
+	border: 1px solid #CECECE;
+}
+
+.conge .title {
+	padding: 5px 10px;
+	text-align: left;
+	border-bottom: 1px solid #CECECE;
+	background-color: #77BBFF;
+}
+
+.conge .title.refuse {
+	background-color: #FF5656;
+}
+
+.conge .title.accepte {
+	background-color: #00FD00;
+}
+
+.conge .status {
+	float: right;
+}
+
+.conge .content {
+	display: inline-block;
+	vertical-align: middle;
+	width: 70%;
+	padding: 5px 10px;
+
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+
+.conge .buttons {
+	display: inline-block;
+	vertical-align: middle;
+	width: 25%;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+
+.conge .button {
+	margin: 10px 0px;
+}

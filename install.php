@@ -1,4 +1,12 @@
 <?php
+header("Content-Type: text/html; charset=utf-8");
+?>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+	</head>
+<?php
 
 define('ROOT_DIR', dirname(__FILE__));
 require_once ROOT_DIR . '/include/install.inc';
@@ -24,11 +32,6 @@ if (isset($_POST['host'])) {
 }
 
 ?>
-<!DOCTYPE html>
-<html>
-	<head>
-	</head>
-
 	<body>
 		<form action="" method="POST">
 			<table>

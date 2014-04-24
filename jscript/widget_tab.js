@@ -30,13 +30,17 @@
 
 			top += body.height();
 		}
-
-		$(window).resize(function() {
+		
+		function redraw() {
 			sidebar.find('.button').each(function() {
 				var id = $(this).attr('data-target');
 				$(this).attr('data-scroll', id * body.height())
 			});
 			sidebar.find('.selected').removeClass('selected').click();
+		}
+
+		$(window).resize(function() {
+			redraw();
 		});
 
 		sidebar.find('.button').click(tab_click);
@@ -63,5 +67,8 @@
 			}, 300);
 		}
 		sidebar.find('.button').eq(0).addClass('selected');
+		$(document).ready(function () {
+			redraw();
+		});
 	};
 })(yt)

@@ -54,6 +54,14 @@ class MySQLTableEntry {
 	/**
 	 *
 	 * @param string $key
+	 */
+	protected function removeValue($key) {
+		unset($this->values[$key]);
+	}
+
+	/**
+	 *
+	 * @param string $key
 	 * @return mixed or NULL if $key does not exists
 	 */
 	public function getValue($key) {
@@ -82,7 +90,7 @@ class MySQLTableEntry {
 		if (is_int($values)) {
 			$values = array('id' => $values);
 		} else if (!is_array($values)) {
-			throw new Exception('values have to be an int or an array, ' . gettype($arg) . ' given.');
+			throw new Exception('values have to be an int or an array, ' . gettype($values) . ' given.');
 		}
 
 		$where = array(
@@ -107,9 +115,16 @@ class MySQLTableEntry {
 	public function store() {
 		$values = $this->joinValues();
 		$request = 'INSERT INTO ' . $this->tableName . ' SET ' . $values;
-//		debug_request($request, $this->values);
+		debug_request($request, $this->values);
 		$pst = $this->pdo->prepare($request);
 		$pst->execute($this->values);
+
+		foreach ($this->values as $key => $val) {
+			if ($val == null) {
+				$this->removeValue($key);
+			}
+		}
+		$this->load($this->values);
 	}
 
 	/**
@@ -146,15 +161,17 @@ class MySQLTableEntry {
 	/**
 	 * Send an UPDATE request.
 	 */
-	public function update() {
-		$request = 'UPDATE ' . $this->tableName . ' SET ' . $this->joinValues();
+	protected function update_p($where) {
+		$request = 'UPDATE ' . $this->tableName . ' SET ' . $this->joinValues() . ' WHERE ' . $where;
+		debug_request($request, $this->values);
 		$pst = $this->pdo->prepare($request);
 		$pst->execute($this->values);
 	}
 
 	public function delete() {
 		$values = $this->joinValues();
-		$request = 'DELETE FROM ' . $this->tableName . ' SET ' . $values;
+		$request = 'DELETE FROM ' . $this->tableName . ' WHERE ' . str_replace(', ', ' AND ', $values);
+		debug_request($request, $this->values);
 		$pst = $this->pdo->prepare($request);
 		$pst->execute($this->values);
 	}
