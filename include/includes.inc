@@ -27,5 +27,6 @@ require_once ROOT_DIR . '/include/core.inc';
 require_once ROOT_DIR . '/include/action.inc';
 require_once ROOT_DIR . '/include/layout.inc';
 require_once ROOT_DIR . '/include/error.inc';
+require_once ROOT_DIR . '/include/mail.inc';
 
 ?>

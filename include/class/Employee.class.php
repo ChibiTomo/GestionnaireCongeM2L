@@ -222,8 +222,11 @@ class Employee extends MySQLTableEntry {
 		for ($i = 0; $i < count($this->conges); $i++) {
 			$conge = $this->conges[$i];
 			if ($conge->getStatus()->is(CONGE_STATUS_PENDING)
-					&& ($conge->getDebut() < $now || $conge->getFin() < $now)) {
+					&& (($conge->getDebut() < $now || $conge->getFin() < $now)
+							|| (!$conge->isPlacable()) )) {
 				$conge->delete();
+				$year = date('Y', $conge->getDebut());
+				$this->increment_solde($year, $conge->getType(), $conge->getQuantity());
 				$to_unset[] = $i;
 			}
 		}
@@ -268,19 +271,23 @@ class Employee extends MySQLTableEntry {
 	}
 
 	public function increment_solde($year, TypeConge $type, $amount) {
+		echo $year;
 		$soldeN = $this->getSolde($year, $type);
-		$total = $soldeN->getAmount() + $amount;
-		if ($total < 0) {
-			$soldeN->set(0);
-			$soldeN1 = $this->getSolde($year, $type);
-			$total = $soldeN1->getAmount() + $total;
-			$soldeN1->setAmount(0);
-			$soldeN1->update();
-		} else {
-			$soldeN->setAmount($total);
-		}
+		$total = 0;
+		if ($soldeN) {
+			$total = $soldeN->getAmount() + $amount;
 
-		$soldeN->update();
+			if ($total <= 0) {
+				$soldeN->setAmount(0);
+				$soldeN1 = $this->getSolde($year, $type);
+				$total = $soldeN1->getAmount() + $total;
+				$soldeN1->setAmount(0);
+				$soldeN1->update();
+			} else {
+				$soldeN->setAmount($total);
+			}
+			$soldeN->update();
+		}
 	}
 
 	public function delete() {

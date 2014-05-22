@@ -6,6 +6,7 @@
 
 $g_logger = new Logger();
 $g_layout = array();
+$g_mail = array();
 
 $g_head_titles = array(
 	STATE_SIGNIN => ' - Connexion',

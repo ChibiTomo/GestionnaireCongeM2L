@@ -12,20 +12,27 @@ try {
 		throw new Exception('Sorry, the server is not yet installed.');
 	}
 
-	if (!isset($_POST['start_t']) || !isset($_POST['end_t'])
-			|| !isset($_POST['type']) || !isset($_POST['employee_id'])) {
+	if (is_null_or_empty($_POST['start_t']) || is_null_or_empty($_POST['end_t'])
+			|| is_null_or_empty($_POST['type']) || is_null_or_empty($_POST['employee_id'])) {
 		throw new Exception('Start/end time and/or type of conge and/or id of employee missing.');
 	}
 
+	$emp = new Employee($g_pdo, intval($_POST['employee_id']));
+	$idCongeStatus = CONGE_STATUS_PENDING;
+	if ($emp->getSuperieur() == null) {
+		$idCongeStatus = CONGE_STATUS_ACCEPTED;
+	}
+
 	$conge = new Conge($g_pdo);
-	$conge->setEmployee(new Employee($g_pdo, $_POST['employee_id']));
-	$conge->setStatus(new StatusConge($g_pdo, array('id' => CONGE_STATUS_PENDING)));
-	$conge->setType(new TypeConge($g_pdo, $_POST['type']));
+	$conge->setEmployee($emp);
+	$conge->setStatus(new StatusConge($g_pdo, array('id' => $idCongeStatus)));
+	$conge->setType(new TypeConge($g_pdo, intval($_POST['type'])));
 	$conge->setDebut($_POST['start_t']);
 	$conge->setFin($_POST['end_t']);
 	$conge->store();
 
 	$result['message'] = "Success";
+	$result['id'] = $conge->getValue('id');
 } catch (Exception $e) {
 	$result['error'] = $e->getMessage();
 }

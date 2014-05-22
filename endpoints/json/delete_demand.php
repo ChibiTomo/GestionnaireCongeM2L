@@ -21,11 +21,11 @@ try {
 	$status = $conge->getStatus();
 
 	if (!$status) {
-		throw new Exception('Wrong id.');
+		throw new Exception('Wrong id: ' . $_POST['id']);
 	}
 
 	if (!$status->is(CONGE_STATUS_PENDING)) {
-		throw new Exception('Demand is not pendding');
+		throw new Exception('Demand is not pending');
 	}
 
 	$conge->delete();

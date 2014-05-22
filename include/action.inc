@@ -152,7 +152,6 @@ function action_update() {
 	switch($_GET[FIELD_TYPE]) {
 		case TYPE_CONGE:
 			action_update_conge($id);
-			// send_mail
 			break;
 
 		case TYPE_EMPLOYEE:
@@ -189,7 +188,7 @@ function action_delete() {
 			$year = date('Y', $conge->getDebut());
 			$employee->increment_solde($year, $conge->getType(), $conge->getQuantity());
 			$conge->delete();
-			// send_mail
+			mail_conge_delete($conge);
 			break;
 
 		case TYPE_EMPLOYEE:
@@ -199,7 +198,6 @@ function action_delete() {
 			}
 			$emp = new Employee($employee->getPDO(), intval($id));
 			$emp->delete();
-			// send_mail
 			break;
 
 		case TYPE_SERVICE:
@@ -269,7 +267,6 @@ function action_authenticate() {
 
 	if ($employee != null) {
 		core_authenticate($employee);
-// 		core_redirect_to_last_url();
 		redirect_to(HOST);
 	}
 	core_set_error_message('Mauvais login et/ou mot de passe.');
@@ -299,6 +296,7 @@ function action_create_conge($employee) {
 		$conge->store();
 		$employee->decrement_solde($year, $conge->getType(), $conge->getQuantity());
 	}
+	mail_conge_create($conge);
 }
 
 function action_create_service() {
@@ -410,6 +408,7 @@ function action_update_conge($id) {
 	$conge = new Conge($g_pdo, intval($id));
 	$conge->setStatus(new StatusConge($g_pdo, intval($status)));
 	$conge->update();
+	mail_conge_update($conge);
 
 	if ($status == CONGE_STATUS_REFUSED) {
 		$emp = $conge->getEmployee();
@@ -433,6 +432,7 @@ function action_update_employee() {
 	}
 
 	$emp->update();
+	mail_employee_update($emp);
 }
 
 function action_administrate($employee) {

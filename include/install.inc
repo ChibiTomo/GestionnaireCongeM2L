@@ -207,16 +207,16 @@ function install_populate_conge($pdo) {
 	$statusConge = StatusConge::getAll($pdo);
 
 	$day = 24 * 60 * 60; // 24h x 60' x 60''
-	$now = time();
+	$now = strtotime('today', time()) - (2 * 60 * 60);
 
 	$dates = array(
 		'passe' => array(
 			'start' => $now - (3 * $day),
-			'end' => $now - (2 * $day) - 1,
+			'end' => $now - $day - 1,
 		),
 		'present' => array(
 			'start' => $now - (1 * $day),
-			'end' => $now + (2 * $day) - 1,
+			'end' => $now + $day - 1,
 		),
 		'futur' => array(
 			'start' => $now + (2 * $day),

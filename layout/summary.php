@@ -53,7 +53,7 @@ foreach ($soldes as $solde) {
 	}
 	$type = $solde->getType()->getValue('label');
 	$amount = $solde->getAmount();
-	echo $type . ' : ' . $amount . '<br/>';
+	echo $type . ' : ' . format_round($amount, 2) . '<br/>';
 }
 ?>
 		</div>

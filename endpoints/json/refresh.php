@@ -13,13 +13,13 @@ try {
 		throw new Exception('Sorry, the server is not yet installed.');
 	}
 
-	if (!isset($_POST['login']) || !isset($_POST['password'])) {
-		throw new Exception('Password and/or login missing');
+	if (!isset($_POST['id'])) {
+		throw new Exception('ID missing');
 	}
 
-	$employee = Employee::authenticate($g_pdo, $_POST['login'], $_POST['password']);
+	$employee = new Employee($g_pdo, intval($_POST['id']));
 
-	if (!$employee) {
+	if (!$employee->getValue('email')) {
 		throw new Exception('Wrong login/password.');
 	}
 

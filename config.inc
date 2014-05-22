@@ -10,6 +10,10 @@
  */
 define('DEBUG_MODE', true);
 
+/**
+ * Adresse email de provenance des mails
+ */
+define('CONTACT_MAIL', 'noreply@m2l.fr');
 
 /**
  * Cette variable contient les noms des différents types d'utilisateur.
@@ -67,11 +71,11 @@ $g_cfg_status_conge = array(
 	),
 	array(
 		'id' => 2,
-		'label' => 'Accepté',
+		'label' => 'Acceptée',
 	),
 	array(
 		'id' => 3,
-		'label' => 'Refusé',
+		'label' => 'Refusée',
 	),
 );
 
@@ -81,8 +85,8 @@ $g_cfg_status_conge = array(
  * /!\ LES VALEURS DOIVENT CORRESPONDRE AUX ID DES STATUS /!\
  */
 define('CONGE_STATUS_PENDING', 1); 		// En attente
-define('CONGE_STATUS_ACCEPTED', 2); 	// Accepté
-define('CONGE_STATUS_REFUSED', 3);		// Refusé
+define('CONGE_STATUS_ACCEPTED', 2); 	// Acceptée
+define('CONGE_STATUS_REFUSED', 3);		// Refusée
 
 $g_cfg_employee_firstnames = array(
 	'Jacque', 'Remi', 'Martin', 'Patrique', 'Lucque', 'Robert',

@@ -69,6 +69,21 @@ class Conge extends MySQLTableEntry {
 		return $qty;
 	}
 
+	public function isPlacable() {
+		if (!$this->employee) {
+			return false;
+		}
+		$conges = Conge::getAll($this->getPDO(), 'WHERE id_Employee=' .
+				$this->employee->getValue('id') . ' AND id_StatusConge=' . CONGE_STATUS_ACCEPTED);
+		foreach ($conges as $c) {
+			if (($this->getDebut() >= $c->getDebut() && $this->getDebut() >= $c->getDebut())
+					|| ($this->getFin() >= $c->getDebut() && $this->getFin() >= $c->getDebut())) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	public function load($values) {
 		parent::load($values);
 

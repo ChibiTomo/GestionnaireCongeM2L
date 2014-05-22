@@ -6,7 +6,7 @@
 
 .conge {
 	display: inline-block;
-	width: 350px;
+	width: 400px;
 	margin: 20px 30px;
 
 	text-align: left;
@@ -37,7 +37,7 @@
 .conge .content {
 	display: inline-block;
 	vertical-align: middle;
-	width: 70%;
+	width: 75%;
 	padding: 5px 10px;
 
 	box-sizing: border-box;
@@ -47,7 +47,7 @@
 .conge .buttons {
 	display: inline-block;
 	vertical-align: middle;
-	width: 25%;
+	width: 20%;
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 }
